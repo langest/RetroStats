@@ -12,6 +12,7 @@ def parse_log(path):
         sessions = {}
         current_session = None
         for row in rows:
+            system = row['system']
             game = os.path.basename(row['path'])
             if row['type'] == 'start':
                 if current_session is not None:
@@ -27,14 +28,14 @@ def parse_log(path):
                 end = datetime.strptime(row['date'], '%a %d %b %H:%M:%S %Z %Y')
                 duration = (end - current_session.start).total_seconds()
                 current_session.duration = duration
-                if game in sessions:
-                    sessions[game].append(current_session)
+                if system in sessions:
+                    if game in sessions[system]:
+                        sessions[system][game].append(current_session)
+                    else:
+                        sessions[system][game] = [current_session]
                 else:
-                    sessions[game] = [current_session]
+                    sessions[system] = { game: [current_session] }
                 current_session = None
             else:
                 raise ValueError('Bad type')
-    for k in sessions:
-        for i in sessions[k]:
-            print(i.__dict__)
     return sessions
