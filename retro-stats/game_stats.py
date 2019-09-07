@@ -18,7 +18,7 @@ def get_stats(sessions, skip_shorter_than):
                     continue
                 session_lengths.append(session.duration)
                 total_time += session.duration
-            avarage = total_time / times_played
+            average = total_time / times_played
             median = statistics.median(session_lengths)
 
             if sys not in aggregate:
@@ -27,8 +27,8 @@ def get_stats(sessions, skip_shorter_than):
                     'times_played': times_played,
                     'total_time_played': f'{total_time//3600}h '
                                          f'{total_time//60}m',
-                    'avarage_session_length': f'{avarage//3600}h '
-                                              f'{avarage//60}m',
+                    'average_session_length': f'{average//3600}h '
+                                              f'{average//60}m',
                     'median_session_length': f'{median//3600}h '
                                              f'{median//60}m'
                 }
