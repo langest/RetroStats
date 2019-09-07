@@ -39,8 +39,8 @@ def main():
     parser.add_argument('-f', '--file', type=str, required=True,
                         help='path to the stats file')
     parser.add_argument('-s', '--skip-shorter-than', type=int, default=120,
-                        help='skip sessions shorter '
-                             'than this number of seconds')
+                        help='skip sessions shorter than this number of '
+                             'seconds, defaults to 120')
 
     args = vars(parser.parse_args())
     sessions = parse_log(args['file'])
