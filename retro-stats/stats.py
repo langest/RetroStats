@@ -15,8 +15,11 @@ def get_stats_from_sessions(sessions, skip_shorter_than):
                     continue
                 session_lengths.append(session.duration)
                 total_time += session.duration
-            average = total_time / times_played
-            median = statistics.median(session_lengths)
+            average = 0
+            median = 0
+            if times_played > 0:
+                average = total_time / times_played
+                median = statistics.median(session_lengths)
 
             if sys not in aggregate:
                 aggregate[sys] = {}
