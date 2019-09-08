@@ -5,12 +5,17 @@ from session import Session
 
 
 class Stats:
-    def __init__(self, times_played: int, total_time_played: int,
+    def __init__(self, game: str,
+                 times_played: int, total_time_played: int,
                  average_session: int, median_session: int):
+        self._game = game
         self._times_played = times_played
         self._total_time = total_time_played
         self._average = average_session
         self._median = median_session
+
+    def get_game() -> str:
+        return self._game
 
     def get_times_played() -> str:
         return str(self._times_played)
@@ -26,7 +31,7 @@ class Stats:
 
 def get_stats_from_sessions(sessions: Dict[str, Dict[str, List[Session]]],
                             skip_shorter_than: int
-                            ) -> Dict[str, Dict[str, Stats]]:
+                            ) -> Dict[str, List[Stats]]:
     aggregate = {}
     for sys in sessions:
         system = sessions[sys]
@@ -47,9 +52,9 @@ def get_stats_from_sessions(sessions: Dict[str, Dict[str, List[Session]]],
                 average = total_time / times_played
                 median = statistics.median(session_lengths)
 
-            if sys not in aggregate:
-                aggregate[sys] = {}
-
-            aggregate[sys][g] = Stats(times_played, total_time,
-                                      average, median)
+            stats = Stats(g, times_played, total_time, average, median)
+            if sys in aggregate:
+                aggregate[sys].append(stats)
+            else:
+                aggregate[sys] = [stats]
     return aggregate
