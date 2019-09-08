@@ -5,7 +5,8 @@ from stats import get_stats_from_sessions
 from top_list import TopList
 
 def main():
-    parser = argparse.ArgumentParser(description='Process some integers.')
+    desc = 'Calculate some play statistics for your retro gaming'
+    parser = argparse.ArgumentParser(description=desc)
     parser.add_argument('-f', '--file', type=str, required=True,
                         help='path to the stats file')
     parser.add_argument('-c', '--criteria', type=str, required=False,
