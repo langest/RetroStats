@@ -1,6 +1,32 @@
 import statistics
+from typing import Dict, List
 
-def get_stats_from_sessions(sessions, skip_shorter_than):
+from session import Session
+
+
+class Stats:
+    def __init__(self, times_played: int, total_time_played: int,
+                 average_session: int, median_session: int):
+        self._times_played = times_played
+        self._total_time = total_time_played
+        self._average = average_session
+        self._median = median_session
+
+    def get_times_played() -> str:
+        return str(self._times_played)
+
+    def get_total_time_played() -> str:
+        return '{}h {}m'.format(self._total_time//3600, _total_time//60),
+
+    def get_avarage_time_played() -> str:
+        return '{}h {}m'.format(_average//3600, _average//60),
+
+    def get_median_time_played() -> str:
+        return '{}h {}m'.format(_median//3600, _median//60)
+
+def get_stats_from_sessions(sessions: Dict[str, Dict[str, List[Session]]],
+                            skip_shorter_than: int
+                            ) -> Dict[str, Dict[str, Stats]]:
     aggregate = {}
     for sys in sessions:
         system = sessions[sys]
@@ -24,13 +50,6 @@ def get_stats_from_sessions(sessions, skip_shorter_than):
             if sys not in aggregate:
                 aggregate[sys] = {}
 
-            time_played_str = '{}h {}m'.format(total_time//3600, total_time//60),
-            average_str = '{}h {}m'.format(average//3600, average//60),
-            median_str = '{}h {}m'.format(median//3600, median//60)
-            aggregate[sys][g] = {
-                    'times_played': times_played,
-                    'total_time_played': time_played_str,
-                    'average_session_length': average_str,
-                    'median_session_length': median_str
-                }
+            aggregate[sys][g] = Stats(times_played, total_time,
+                                      average, median)
     return aggregate
