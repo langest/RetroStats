@@ -1,6 +1,42 @@
 import statistics
+import datetime
+from typing import Dict, List
 
-def get_stats_from_sessions(sessions, skip_shorter_than):
+from session import Session
+
+
+class Stats:
+    def __init__(self, game: str, system: str,
+                 times_played: int, total_time_played: int,
+                 average_session: int, median_session: int):
+        self.game = game
+        self.system = system
+        self.times_played = times_played
+        self.total_time = total_time_played
+        self.average = average_session
+        self.median = median_session
+
+    def get_game(self) -> str:
+        return self.game
+
+    def get_system(self) -> str:
+        return self.system
+
+    def get_times_played(self) -> str:
+        return str(self.times_played)
+
+    def get_total_time_played(self) -> str:
+        return str(datetime.timedelta(seconds=self.total_time))
+
+    def get_average_session_time(self) -> str:
+        return str(datetime.timedelta(seconds=self.average))
+
+    def get_median_session_time(self) -> str:
+        return str(datetime.timedelta(seconds=self.median))
+
+def get_stats_from_sessions(sessions: Dict[str, Dict[str, List[Session]]],
+                            skip_shorter_than: int
+                            ) -> Dict[str, List[Stats]]:
     aggregate = {}
     for sys in sessions:
         system = sessions[sys]
@@ -21,16 +57,9 @@ def get_stats_from_sessions(sessions, skip_shorter_than):
                 average = total_time / times_played
                 median = statistics.median(session_lengths)
 
-            if sys not in aggregate:
-                aggregate[sys] = {}
-
-            time_played_str = '{}h {}m'.format(total_time//3600, total_time//60),
-            average_str = '{}h {}m'.format(average//3600, average//60),
-            median_str = '{}h {}m'.format(median//3600, median//60)
-            aggregate[sys][g] = {
-                    'times_played': times_played,
-                    'total_time_played': time_played_str,
-                    'average_session_length': average_str,
-                    'median_session_length': median_str
-                }
+            stats = Stats(g, sys, times_played, total_time, average, median)
+            if sys in aggregate:
+                aggregate[sys].append(stats)
+            else:
+                aggregate[sys] = [stats]
     return aggregate
