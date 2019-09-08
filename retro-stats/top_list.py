@@ -7,7 +7,7 @@ class TopList:
         self._stats = stats
 
     def get_top_times_played(self, system: str = None) -> List[Stats]:
-        return self._get_sorted(system, lambda x : x.time_played)
+        return self._get_sorted(system, lambda x : x.times_played)
 
     def get_top_total_time(self, system: str = None) -> List[Stats]:
         return self._get_sorted(system, lambda x : x.total_time)
@@ -22,7 +22,10 @@ class TopList:
         if system is None:
             stats = [x for y in list(self._stats.values()) for x in y]
         else:
-            assert system in self._stats
+            if system not in self._stats:
+                msg = 'System {}, does not seem to have any valid stats'
+                print(msg.format(system))
+                return []
             stats = self._stats[system]
 
         return sorted(stats, key=key, reverse=True)
