@@ -22,7 +22,7 @@ class TopList:
         if system is None:
             stats = [x for y in list(self._stats.values()) for x in y]
         else:
-            assert systen in self._stats
+            assert system in self._stats
             stats = self._stats[system]
 
         return sorted(stats, key=key, reverse=True)
