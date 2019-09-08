@@ -16,13 +16,13 @@ def parse_log(path):
             game = os.path.basename(row['path'])
             if row['type'] == 'start':
                 if current_session is not None:
-                    print(f'Mismatch: {current_session}')
+                    print('Mismatch: ', current_session)
                 d = datetime.strptime(row['date'], '%a %d %b %H:%M:%S %Z %Y')
                 current_session = Session(game, row['system'], d)
             elif current_session is not None and row['type'] == 'end':
                 if not game == current_session.game:
                     # Start and end mismatch, discard both
-                    print(f'Mismatch: {current_session} and {row}')
+                    print('Mismatch:', current_session, 'and', 'row')
                     current_session = None
                     continue
                 end = datetime.strptime(row['date'], '%a %d %b %H:%M:%S %Z %Y')
