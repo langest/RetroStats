@@ -2,6 +2,7 @@ import argparse
 
 from parse_log import parse_log
 from stats import get_stats_from_sessions
+from top_list import TopList
 
 def main():
     parser = argparse.ArgumentParser(description='Process some integers.')
@@ -14,7 +15,11 @@ def main():
     args = vars(parser.parse_args())
     sessions = parse_log(args['file'])
     stats = get_stats_from_sessions(sessions, args['skip_shorter_than'])
-    print(stats)
+    top = TopList(stats)
+    for g in top.get_top_total_time():
+        print('{} for {}, time played: {}, avg: {}, median: {}'.format(
+            g.get_game(), g.get_system(), g.get_total_time_played(),
+            g.get_average_session_time(), g.get_median_session_time()))
 
 if __name__ == "__main__":
     main()
