@@ -1,11 +1,13 @@
 import csv
 import os.path
 from datetime import datetime
-from typing import Dict, List
+from typing import Dict, List, Callable
 
 from session import Session
 
-def parse_log(path: str) -> Dict[str, Dict[str, List[Session]]]:
+def parse_log(path: str,
+              get_title: Callable[[str, str], str]
+              ) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, 'r') as f:
         fieldnames = ['date', 'type', 'system', 'emulator', 'path', 'command']
         rows = csv.DictReader(f, fieldnames, delimiter='|',
@@ -14,7 +16,10 @@ def parse_log(path: str) -> Dict[str, Dict[str, List[Session]]]:
         current_session = None
         for row in rows:
             system = row['system']
-            game = os.path.basename(row['path'])
+            game = get_title(row['path'], system)
+            if game is None:
+                game = os.path.basename(row['path'])
+
             if row['type'] == 'start':
                 if current_session is not None:
                     print('Mismatch, missing end: ', current_session)
