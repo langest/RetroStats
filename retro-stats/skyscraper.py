@@ -22,11 +22,14 @@ def get_skyscraper_callable(cache_dir: str) -> Callable[[str, str], str]:
         prio_nodes = prio_root.findall('.//*[@type="title"]/source')
         prio = list(map(lambda x: x.text, prio_nodes))
 
-        prio_path = os.path.join(cache_dir, system, 'db.xml')
-        db_root = ET.parse('db.xml').getroot()
+        db_path = os.path.join(cache_dir, system, 'db.xml')
+        db_root = ET.parse(db_path).getroot()
         db_nodes = db_root.findall('.//*[@type="title"][@sha1="{}"]'.format(sha1sum))
         db = [(x.text, x.get('source')) for x in db_nodes]
 
-        res = [y for x in prio for y in db if y[1] == x]
-        return res[0][0]
+        res = (y[0] for x in prio for y in db if y[1] == x)
+        try:
+            return next(res)
+        except StopIteration:
+            return None
     return get_rom_title
