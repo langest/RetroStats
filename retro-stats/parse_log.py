@@ -21,15 +21,12 @@ def parse_log(path: str,
                 game = os.path.basename(row['path'])
 
             if row['type'] == 'start':
-                if current_session is not None:
-                    print('Mismatch, missing end: ', current_session)
+                # Overwrite previous start if we didn't find an end tag
                 d = datetime.strptime(row['date'], '%a %d %b %H:%M:%S %Z %Y')
                 current_session = Session(game, row['system'], d)
             elif current_session is not None and row['type'] == 'end':
                 if not game == current_session.game:
                     # Start and end mismatch, discard both
-                    print('Mismatch of start and end:',
-                          current_session)
                     current_session = None
                     continue
                 end = datetime.strptime(row['date'], '%a %d %b %H:%M:%S %Z %Y')
