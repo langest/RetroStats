@@ -1,12 +1,37 @@
 import xml.etree.ElementTree as ET
 import hashlib
 import os.path
-from typing import Callable
+from typing import Callable, Dict, Optional
+from functools import lru_cache
 
-def get_skyscraper_callable(cache_dir: str) -> Callable[[str, str], str]:
-    if cache_dir is None:
-        return None
+@lru_cache(maxsize=None)
+def get_title_dict(cache_dir, system) -> Dict[str, str]:
+    prio_path = os.path.join(cache_dir, system, 'priorities.xml')
+    if not os.path.exists(prio_path):
+        return {}
+    prio_root = ET.parse(prio_path).getroot()
+    prio_nodes = prio_root.findall('.//*[@type="title"]/source')
+    prio = list(map(lambda x: x.text, prio_nodes))
+
+    db_path = os.path.join(cache_dir, system, 'db.xml')
+    if not os.path.exists(db_path):
+        return {}
+    db_root = ET.parse(db_path).getroot()
+    db_nodes = db_root.findall('.//*[@type="title"]')
+
+    title_dict = {}
+    for node in db_nodes:
+        db = [(x.text, x.get('source')) for x in node]
+        res = (y[0] for x in prio for y in db if y[1] == x)
+        title_dict[node.get('sha1')] = node.text
+    return title_dict
+
+
+def get_skyscraper_callable(cache_dir: Optional[str] = None
+                           ) -> Callable[[str, str], Optional[str]]:
     def get_rom_title(rom_path: str, system: str) -> str:
+        td = get_title_dict(cache_dir, system)
+
         if not os.path.exists(rom_path):
             return None
         BLOCKSIZE = 65536
@@ -17,19 +42,5 @@ def get_skyscraper_callable(cache_dir: str) -> Callable[[str, str], str]:
                 hasher.update(buf)
                 buf = f.read(BLOCKSIZE)
         sha1sum = hasher.hexdigest()
-        prio_path = os.path.join(cache_dir, system, 'priorities.xml')
-        prio_root = ET.parse(prio_path).getroot()
-        prio_nodes = prio_root.findall('.//*[@type="title"]/source')
-        prio = list(map(lambda x: x.text, prio_nodes))
-
-        db_path = os.path.join(cache_dir, system, 'db.xml')
-        db_root = ET.parse(db_path).getroot()
-        db_nodes = db_root.findall('.//*[@type="title"][@sha1="{}"]'.format(sha1sum))
-        db = [(x.text, x.get('source')) for x in db_nodes]
-
-        res = (y[0] for x in prio for y in db if y[1] == x)
-        try:
-            return next(res)
-        except StopIteration:
-            return None
+        return td.get(sha1sum)
     return get_rom_title

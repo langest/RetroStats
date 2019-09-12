@@ -1,4 +1,5 @@
 import argparse
+import os.path
 
 from parse_log import parse_log
 from stats import get_stats_from_sessions
@@ -31,9 +32,14 @@ def main():
 
     args = vars(parser.parse_args())
 
-    sessions = parse_log(args['file'],
-                         get_skyscraper_callable(args['skyscraper_title_cache']
-                         ))
+    skyscraper_cache_path = args['skyscraper_title_cache']
+    skyscraper_callable = None
+    sessions = {}
+    if skyscraper_cache_path:
+        skyscraper_callable = get_skyscraper_callable(skyscraper_cache_path)
+        sessions = parse_log(args['file'], skyscraper_callable)
+    else:
+        sessions = parse_log(args['file'], lambda x, y: os.path.basename(x))
     stats = get_stats_from_sessions(sessions, args['minimum_session_length'])
     top = TopList(stats)
 
