@@ -5,7 +5,7 @@ from typing import Callable, Dict, Optional
 from functools import lru_cache
 
 @lru_cache(maxsize=None)
-def get_title_dict(cache_dir, system) -> Dict[str, str]:
+def _get_title_dict(cache_dir, system) -> Dict[str, str]:
     prio_path = os.path.join(cache_dir, system, 'priorities.xml')
     if not os.path.exists(prio_path):
         return {}
@@ -27,20 +27,23 @@ def get_title_dict(cache_dir, system) -> Dict[str, str]:
     return title_dict
 
 
+@lru_cache(maxsize=None)
+def _calculate_hash(rom_path: str) -> str:
+    BLOCKSIZE = 65536
+    hasher = hashlib.sha1()
+    with open(rom_path, 'rb') as f:
+        buf = f.read(BLOCKSIZE)
+        while len(buf) > 0:
+            hasher.update(buf)
+            buf = f.read(BLOCKSIZE)
+    return hasher.hexdigest()
+
 def get_skyscraper_callable(cache_dir: Optional[str] = None
                            ) -> Callable[[str, str], Optional[str]]:
     def get_rom_title(rom_path: str, system: str) -> str:
-        td = get_title_dict(cache_dir, system)
-
         if not os.path.exists(rom_path):
             return None
-        BLOCKSIZE = 65536
-        hasher = hashlib.sha1()
-        with open(rom_path, 'rb') as f:
-            buf = f.read(BLOCKSIZE)
-            while len(buf) > 0:
-                hasher.update(buf)
-                buf = f.read(BLOCKSIZE)
-        sha1sum = hasher.hexdigest()
+        sha1sum = _calculate_hash(rom_path)
+        td = _get_title_dict(cache_dir, system)
         return td.get(sha1sum)
     return get_rom_title
