@@ -4,6 +4,7 @@ import os.path
 from parse_log import parse_log
 from stats import get_stats_from_sessions
 from top_list import TopList
+from title_info import get_title
 
 def main():
     desc = 'Calculate some play statistics for your retro gaming'
@@ -51,7 +52,10 @@ def main():
             break
         list_entry = ('{} for {}, played {} times, '
                       'time played: {}, avg: {}, median: {}')
-        list_entry = list_entry.format(g.get_game(),
+        title = get_title(g.get_game(), g.get_system())
+        if title is None:
+            title = os.path.basename(g.get_game())
+        list_entry = list_entry.format(title,
                                        g.get_system(),
                                        g.get_times_played(),
                                        g.get_total_time_played(),

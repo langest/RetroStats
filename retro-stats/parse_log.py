@@ -1,8 +1,6 @@
 import csv
-import os.path
 from datetime import datetime
 from typing import Dict, List, Callable, Optional
-from title_info import get_title
 
 from session import Session
 
@@ -16,9 +14,7 @@ def parse_log(path: str,
         current_session = None
         for row in rows:
             system = row['system']
-            game = get_title(row['path'], system)
-            if game is None:
-                game = os.path.basename(row['path'])
+            game = row['path']
 
             if row['type'] == 'start':
                 # Overwrite previous start if we didn't find an end tag
