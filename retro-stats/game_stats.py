@@ -8,7 +8,11 @@ from top_list import TopList
 def main():
     desc = 'Calculate some play statistics for your retro gaming'
     parser = argparse.ArgumentParser(description=desc)
-    parser.add_argument('-f', '--file', type=str, required=True,
+    parser.add_argument('-n', '--list-length', type=int,
+                        required=False, default=25,
+                        help='how many entries to print int the top list')
+    parser.add_argument('-f', '--file', type=str, required=False,
+                        default='/home/pi/RetroPie/game_stats.log',
                         help='path to the stats file')
     parser.add_argument('-c', '--criteria', type=str, required=False,
                         default=None,
@@ -43,6 +47,8 @@ def main():
     elif criteria == 'median':
         top_list = enumerate(top.get_top_median(sys), start=1)
     for i, g in top_list:
+        if i > args['list_length']:
+            break
         list_entry = ('{} for {}, played {} times, '
                       'time played: {}, avg: {}, median: {}')
         list_entry = list_entry.format(g.get_game(),
