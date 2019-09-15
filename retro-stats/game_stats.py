@@ -4,7 +4,6 @@ import os.path
 from parse_log import parse_log
 from stats import get_stats_from_sessions
 from top_list import TopList
-from skyscraper import get_skyscraper_callable
 
 def main():
     desc = 'Calculate some play statistics for your retro gaming'
@@ -24,22 +23,11 @@ def main():
     parser.add_argument('-m', '--minimum-session-length', type=int, default=120,
                         help='skip sessions shorter than this number of '
                              'seconds, defaults to 120')
-    parser.add_argument('-t', '--skyscraper-title-cache', type=str,
-                        default=None,
-                        help='the path to your skyscraper cache,'
-                             'if provided, will use skyscraper db '
-                             'to get game titles instead of filenames')
 
     args = vars(parser.parse_args())
 
-    skyscraper_cache_path = args['skyscraper_title_cache']
-    skyscraper_callable = None
     sessions = {}
-    if skyscraper_cache_path:
-        skyscraper_callable = get_skyscraper_callable(skyscraper_cache_path)
-        sessions = parse_log(args['file'], skyscraper_callable)
-    else:
-        sessions = parse_log(args['file'], lambda x, y: os.path.basename(x))
+    sessions = parse_log(args['file'])
     stats = get_stats_from_sessions(sessions, args['minimum_session_length'])
     top = TopList(stats)
 
