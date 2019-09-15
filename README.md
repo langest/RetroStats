@@ -15,13 +15,15 @@ $ python3 retro-stats/game_stats.py -f ~/RetroPie/game_stats.log
 
 For a full list of option use `-h` or `--help`
 ```
-usage: game_stats.py [-h] -f FILE [-c CRITERIA] [-s SYSTEM]
+usage: game_stats.py [-h] [-n LIST_LENGTH] [-f FILE] [-c CRITERIA] [-s SYSTEM]
                      [-m MINIMUM_SESSION_LENGTH]
 
 Calculate some play statistics for your retro gaming
 
 optional arguments:
   -h, --help            show this help message and exit
+  -n LIST_LENGTH, --list-length LIST_LENGTH
+                        how many entries to print int the top list
   -f FILE, --file FILE  path to the stats file
   -c CRITERIA, --criteria CRITERIA
                         which criteria to order by, available options are:
