@@ -2,11 +2,11 @@ import csv
 import os.path
 from datetime import datetime
 from typing import Dict, List, Callable, Optional
+from title_info import get_title
 
 from session import Session
 
 def parse_log(path: str,
-              get_title: Optional[Callable[[str, str], str]]
               ) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, 'r') as f:
         fieldnames = ['date', 'type', 'system', 'emulator', 'path', 'command']
