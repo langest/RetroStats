@@ -3,8 +3,8 @@ Stats for retropie games
 # Manual install
 Append the contents of runcommand_hooks to their respective runcommand hook in retropie.
 ```
-$ cat runcommand_hook/sruncommand-onstart.sh > /opt/retropie/configs/all/runcommand-onstart.sh
-$ cat runcommand_hook/sruncommand-onend.sh > /opt/retropie/configs/all/runcommand-onend.sh
+$ cat runcommand_hook/sruncommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
+$ cat runcommand_hook/sruncommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
 ```
 
 # Running the program
