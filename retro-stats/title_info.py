@@ -1,6 +1,8 @@
 import xml.etree.ElementTree as ET
 import os.path
+from functools import lru_cache
 
+@lru_cache(maxsize=64)
 def get_title(rom_path, system) -> str:
     default = os.path.basename(rom_path)
 
