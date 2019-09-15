@@ -16,7 +16,7 @@ $ python3 retro-stats/game_stats.py -f ~/RetroPie/game_stats.log
 For a full list of option use `-h` or `--help`
 ```
 usage: game_stats.py [-h] -f FILE [-c CRITERIA] [-s SYSTEM]
-                     [-m MINIMUM_SESSION_LENGTH] [-t SKYSCRAPER_TITLE_CACHE]
+                     [-m MINIMUM_SESSION_LENGTH]
 
 Calculate some play statistics for your retro gaming
 
@@ -33,8 +33,4 @@ optional arguments:
   -m MINIMUM_SESSION_LENGTH, --minimum-session-length MINIMUM_SESSION_LENGTH
                         skip sessions shorter than this number of seconds,
                         defaults to 120
-  -t SKYSCRAPER_TITLE_CACHE, --skyscraper-title-cache SKYSCRAPER_TITLE_CACHE
-                        the path to your skyscraper cache,if provided, will
-                        use skyscraper db to get game titles instead of
-                        filenames
 ```
