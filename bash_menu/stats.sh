@@ -19,3 +19,13 @@ function ask_choice() {
 
 	echo "${options[choice*2-1]}"
 }
+
+function choose_system() {
+	system=$(ask_choice "Choose system" all $(ls /home/pi/roms)) || exit 1
+	if [ "$system" = "all" ]; then
+		echo ""
+	else
+		echo -s $system
+	fi
+}
+
