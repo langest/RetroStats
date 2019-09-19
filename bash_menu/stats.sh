@@ -50,3 +50,7 @@ function choose_criteria() {
 			;;
 	esac
 }
+
+function print_stats() {
+	$(dialog --msgbox "$@" 22 120 2>&1 >/dev/tty) || exit 1
+}
