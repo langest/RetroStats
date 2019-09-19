@@ -62,3 +62,7 @@ function run {
 	stats=$(python3 /home/pi/repos/RetroStats/retro-stats/game_stats.py $system $criteria)
 	print_stats "$stats" || exit 1
 }
+
+while true; do
+	run || exit 0
+done
