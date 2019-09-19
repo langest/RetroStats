@@ -54,3 +54,11 @@ function choose_criteria() {
 function print_stats() {
 	$(dialog --msgbox "$@" 22 120 2>&1 >/dev/tty) || exit 1
 }
+
+function run {
+	system=$(choose_system) || exit 1
+	criteria=$(choose_criteria) || exit 1
+
+	stats=$(python3 /home/pi/repos/RetroStats/retro-stats/game_stats.py $system $criteria)
+	print_stats "$stats" || exit 1
+}
