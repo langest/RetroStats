@@ -29,3 +29,24 @@ function choose_system() {
 	fi
 }
 
+function choose_criteria() {
+	criteria=$(ask_choice "Choose criteria" \
+		"Time Played" \
+		"Number of Times Played" \
+		"Average Session" \
+		"Median Session") || exit 1
+	case $criteria in
+		"Time Played")
+			echo -c total
+			;;
+		"Number of Times Played")
+			echo -c times
+			;;
+		"Average Session")
+			echo -c average
+			;;
+		"Median Session")
+			echo -c median
+			;;
+	esac
+}
