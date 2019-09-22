@@ -21,7 +21,10 @@ function ask_choice() {
 }
 
 function choose_system() {
-	system=$(ask_choice "Choose system" all $(ls /home/pi/roms)) || exit 1
+	systems=$(find /home/pi/roms/ -type f -name 'gamelist.xml' | \
+            xargs dirname | \
+            xargs -n1 basename)
+	system=$(ask_choice "Choose system" all $systems) || exit 1
 	if [ "$system" = "all" ]; then
 		echo ""
 	else
