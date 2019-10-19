@@ -9,6 +9,10 @@ from top_list import TopList
 from title_info import get_title
 
 
+def trim_microseconds(td: datetime.timedelta) -> datetime.timedelta:
+    return td - datetime.timedelta(microseconds=td.microseconds)
+
+
 def print_bar_chart(
     top_list: List[Stats], criteria: str, bar_length: int, list_length: int
 ):
@@ -31,7 +35,7 @@ def print_bar_chart(
 
         def g(x):
             r = x.get_average_session_time()
-            return r, str(datetime.timedelta(seconds=r))
+            return r, trim_microseconds(datetime.timedelta(seconds=r))
 
         f = g
     elif criteria == "median":
@@ -72,12 +76,13 @@ def print_list_entries(top_list: List[Stats], length: int):
             "{} for {}, played {} times, " "time played: {}, avg: {}, median: {}"
         )
         title = get_title(g.get_game(), g.get_system())
+
         list_entry = list_entry.format(
             title,
             g.get_system(),
             g.get_times_played(),
             datetime.timedelta(seconds=g.get_total_time_played()),
-            datetime.timedelta(seconds=g.get_average_session_time()),
+            trim_microseconds(datetime.timedelta(seconds=g.get_average_session_time())),
             datetime.timedelta(seconds=g.get_median_session_time()),
         )
         print(i, list_entry)
