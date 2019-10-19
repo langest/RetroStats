@@ -129,6 +129,14 @@ def main():
         help="display bar chart instead of numbers",
         action="store_true",
     )
+    parser.add_argument(
+        "-e",
+        "--exclude-systems",
+        type=str,
+        default=None,
+        nargs="+",
+        help="skip the listed systems, only respected if --system is unset",
+    )
 
     args = vars(parser.parse_args())
 
@@ -138,16 +146,17 @@ def main():
     top = TopList(stats)
 
     sys = args["system"]
+    excl_sys = args["exclude_systems"]
     criteria = args["criteria"]
     top_list = []
     if criteria == "total" or criteria is None:
-        top_list = top.get_top_total_time(sys)
+        top_list = top.get_top_total_time(sys, excl_sys)
     elif criteria == "times":
-        top_list = top.get_top_times_played(sys)
+        top_list = top.get_top_times_played(sys, excl_sys)
     elif criteria == "average":
-        top_list = top.get_top_average(sys)
+        top_list = top.get_top_average(sys, excl_sys)
     elif criteria == "median":
-        top_list = top.get_top_median(sys)
+        top_list = top.get_top_median(sys, excl_sys)
 
     if args["bar_chart"]:
         print_bar_chart(
