@@ -9,7 +9,9 @@ from top_list import TopList
 from title_info import get_title
 
 
-def print_bar_chart(top_list: List[Stats], criteria: str, length: int):
+def print_bar_chart(
+    top_list: List[Stats], criteria: str, bar_length: int, list_length: int
+):
     f = None
     if criteria == "total" or criteria is None:
 
@@ -40,14 +42,14 @@ def print_bar_chart(top_list: List[Stats], criteria: str, length: int):
 
         f = g
 
-    max_value = max(f(g)[0] for g in top_list[:length])
-    increment = max_value / 25
+    max_value = max(f(g)[0] for g in top_list[:list_length])
+    increment = max_value / bar_length
     longest_label_length = max(
-        len(get_title(g.get_game(), g.get_system())) for g in top_list[:length]
+        len(get_title(g.get_game(), g.get_system())) for g in top_list[:list_length]
     )
-    longest_value_length = max(len(f(g)[1]) for g in top_list[:length])
+    longest_value_length = max(len(f(g)[1]) for g in top_list[:list_length])
 
-    for g in top_list[:length]:
+    for g in top_list[:list_length]:
         value, value_string = f(g)
         bar_chunks, remainder = divmod(int(value * 8 / increment), 8)
         bar = "█" * bar_chunks
@@ -79,6 +81,7 @@ def print_list_entries(top_list: List[Stats], length: int):
             datetime.timedelta(seconds=g.get_median_session_time()),
         )
         print(i, list_entry)
+
 
 def parse_args() -> Dict[str, Any]:
     desc = "Calculate some play statistics for your retro gaming"
@@ -125,9 +128,8 @@ def parse_args() -> Dict[str, Any]:
     parser.add_argument(
         "-b",
         "--bar-chart",
-        default=False,
-        help="display bar chart instead of numbers",
-        action="store_true",
+        type=int,
+        help="display bar chart instead of numbers, integer sets bar length",
     )
     parser.add_argument(
         "-e",
@@ -139,6 +141,7 @@ def parse_args() -> Dict[str, Any]:
     )
 
     return vars(parser.parse_args())
+
 
 def main():
     args = parse_args()
@@ -161,9 +164,12 @@ def main():
     elif criteria == "median":
         top_list = top.get_top_median(sys, excl_sys)
 
-    if args["bar_chart"]:
+    if not args["bar_chart"] is None:
         print_bar_chart(
-            top_list, criteria if args["bar_chart"] else None, args["list_length"]
+            top_list,
+            criteria if args["bar_chart"] else None,
+            args["bar_chart"],
+            args["list_length"],
         )
     else:
         print_list_entries(top_list, args["list_length"])
