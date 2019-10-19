@@ -1,10 +1,28 @@
 import argparse
 import os.path
+import datetime
 
 from parse_log import parse_log
 from stats import get_stats_from_sessions
 from top_list import TopList
 from title_info import get_title
+
+
+def print_list_entries(top_list, length):
+    for i, g in enumerate(top_list[:length], start=1):
+        list_entry = (
+            "{} for {}, played {} times, " "time played: {}, avg: {}, median: {}"
+        )
+        title = get_title(g.get_game(), g.get_system())
+        list_entry = list_entry.format(
+            title,
+            g.get_system(),
+            g.get_times_played(),
+            datetime.timedelta(seconds=g.get_total_time_played()),
+            datetime.timedelta(seconds=g.get_average_session_time()),
+            datetime.timedelta(seconds=g.get_median_session_time()),
+        )
+        print(i, list_entry)
 
 
 def main():
@@ -14,7 +32,6 @@ def main():
         "-n",
         "--list-length",
         type=int,
-        required=False,
         default=25,
         help="how many entries to print int the top list",
     )
@@ -22,7 +39,6 @@ def main():
         "-f",
         "--file",
         type=str,
-        required=False,
         default="/home/pi/RetroPie/game_stats.log",
         help="path to the stats file",
     )
@@ -30,7 +46,6 @@ def main():
         "-c",
         "--criteria",
         type=str,
-        required=False,
         default=None,
         help="which criteria to order by, available options "
         "are: total (time), times (played), "
@@ -64,31 +79,19 @@ def main():
     criteria = args["criteria"]
     top_list = []
     if criteria == "total" or criteria is None:
-        top_list = enumerate(top.get_top_total_time(sys), start=1)
+        top_list = top.get_top_total_time(sys)
     elif criteria == "times":
-        top_list = enumerate(top.get_top_times_played(sys), start=1)
+        top_list = top.get_top_times_played(sys)
     elif criteria == "average":
-        top_list = enumerate(top.get_top_average(sys), start=1)
+        top_list = top.get_top_average(sys)
     elif criteria == "median":
-        top_list = enumerate(top.get_top_median(sys), start=1)
-    for i, g in top_list:
-        if i > args["list_length"]:
-            break
-        list_entry = (
-            "{} for {}, played {} times, " "time played: {}, avg: {}, median: {}"
+        top_list = top.get_top_median(sys)
+    if print_bar_chart is None:
+        print_list_entries(top_list, args["list_length"])
+    else:
+        print_bar_chart(
+            top_list, criteria if args["bar_chart"] else None, args["list_length"]
         )
-        title = get_title(g.get_game(), g.get_system())
-        if title is None:
-            title = os.path.basename(g.get_game())
-        list_entry = list_entry.format(
-            title,
-            g.get_system(),
-            g.get_times_played(),
-            g.get_total_time_played(),
-            g.get_average_session_time(),
-            g.get_median_session_time(),
-        )
-        print(i, list_entry)
 
 
 if __name__ == "__main__":

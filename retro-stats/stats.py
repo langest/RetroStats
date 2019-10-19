@@ -1,5 +1,4 @@
 import statistics
-import datetime
 from typing import Dict, List
 
 from session import Session
@@ -28,17 +27,17 @@ class Stats:
     def get_system(self) -> str:
         return self.system
 
-    def get_times_played(self) -> str:
-        return str(self.times_played)
+    def get_times_played(self) -> int:
+        return self.times_played
 
-    def get_total_time_played(self) -> str:
-        return str(datetime.timedelta(seconds=self.total_time))
+    def get_total_time_played(self) -> int:
+        return self.total_time
 
-    def get_average_session_time(self) -> str:
-        return str(datetime.timedelta(seconds=self.average))
+    def get_average_session_time(self) -> int:
+        return self.average
 
-    def get_median_session_time(self) -> str:
-        return str(datetime.timedelta(seconds=self.median))
+    def get_median_session_time(self) -> int:
+        return self.median
 
 
 def get_stats_from_sessions(
