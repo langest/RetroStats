@@ -35,7 +35,7 @@ def print_bar_chart(
 
         def g(x):
             r = x.get_average_session_time()
-            return r, trim_microseconds(datetime.timedelta(seconds=r))
+            return r, str(trim_microseconds(datetime.timedelta(seconds=r)))
 
         f = g
     elif criteria == "median":
