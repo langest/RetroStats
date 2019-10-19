@@ -1,14 +1,15 @@
 import argparse
 import os.path
 import datetime
+from typing import List
 
 from parse_log import parse_log
-from stats import get_stats_from_sessions
+from stats import get_stats_from_sessions, Stats
 from top_list import TopList
 from title_info import get_title
 
 
-def print_bar_chart(top_list, criteria, length):
+def print_bar_chart(top_list: List[Stats], criteria: str, length: int):
     f = None
     if criteria == "total" or criteria is None:
 
@@ -63,7 +64,7 @@ def print_bar_chart(top_list, criteria, length):
         )
 
 
-def print_list_entries(top_list, length):
+def print_list_entries(top_list: List[Stats], length: int):
     for i, g in enumerate(top_list[:length], start=1):
         list_entry = (
             "{} for {}, played {} times, " "time played: {}, avg: {}, median: {}"
