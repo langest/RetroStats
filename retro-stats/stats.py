@@ -6,9 +6,15 @@ from session import Session
 
 
 class Stats:
-    def __init__(self, game: str, system: str,
-                 times_played: int, total_time_played: int,
-                 average_session: int, median_session: int):
+    def __init__(
+        self,
+        game: str,
+        system: str,
+        times_played: int,
+        total_time_played: int,
+        average_session: int,
+        median_session: int,
+    ):
         self.game = game
         self.system = system
         self.times_played = times_played
@@ -34,9 +40,10 @@ class Stats:
     def get_median_session_time(self) -> str:
         return str(datetime.timedelta(seconds=self.median))
 
-def get_stats_from_sessions(sessions: Dict[str, Dict[str, List[Session]]],
-                            skip_shorter_than: int
-                            ) -> Dict[str, List[Stats]]:
+
+def get_stats_from_sessions(
+    sessions: Dict[str, Dict[str, List[Session]]], skip_shorter_than: int
+) -> Dict[str, List[Stats]]:
     aggregate = {}
     for sys in sessions:
         system = sessions[sys]
