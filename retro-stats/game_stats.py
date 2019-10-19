@@ -8,6 +8,61 @@ from top_list import TopList
 from title_info import get_title
 
 
+def print_bar_chart(top_list, criteria, length):
+    f = None
+    if criteria == "total" or criteria is None:
+
+        def g(x):
+            r = x.get_total_time_played()
+            return r, str(datetime.timedelta(seconds=r))
+
+        f = g
+    elif criteria == "times":
+
+        def g(x):
+            r = x.get_times_played()
+            return r, str(r)
+
+        f = g
+    elif criteria == "average":
+
+        def g(x):
+            r = x.get_average_session_time()
+            return r, str(datetime.timedelta(seconds=r))
+
+        f = g
+    elif criteria == "median":
+
+        def g(x):
+            r = x.get_median_session_time()
+            return r, str(datetime.timedelta(seconds=r))
+
+        f = g
+
+    max_value = max(f(g)[0] for g in top_list[:length])
+    increment = max_value / 25
+    longest_label_length = max(
+        len(get_title(g.get_game(), g.get_system())) for g in top_list[:length]
+    )
+    longest_value_length = max(len(f(g)[1]) for g in top_list[:length])
+
+    for g in top_list[:length]:
+        value, value_string = f(g)
+        bar_chunks, remainder = divmod(int(value * 8 / increment), 8)
+        bar = "█" * bar_chunks
+        title = get_title(g.get_game(), g.get_system())
+        if remainder > 0:
+            bar += chr(ord("█") + (8 - remainder))
+        bar = bar or "▏"
+        print(
+            "{} ▏ {} {}".format(
+                title.rjust(longest_label_length),
+                value_string.rjust(longest_value_length),
+                bar,
+            )
+        )
+
+
 def print_list_entries(top_list, length):
     for i, g in enumerate(top_list[:length], start=1):
         list_entry = (
@@ -94,12 +149,12 @@ def main():
     elif criteria == "median":
         top_list = top.get_top_median(sys)
 
-    if args["bar_chart"] is None:
-        print_list_entries(top_list, args["list_length"])
-    else:
+    if args["bar_chart"]:
         print_bar_chart(
             top_list, criteria if args["bar_chart"] else None, args["list_length"]
         )
+    else:
+        print_list_entries(top_list, args["list_length"])
 
 
 if __name__ == "__main__":
