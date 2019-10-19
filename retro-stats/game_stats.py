@@ -1,7 +1,7 @@
 import argparse
 import os.path
 import datetime
-from typing import List
+from typing import List, Dict, Any
 
 from parse_log import parse_log
 from stats import get_stats_from_sessions, Stats
@@ -80,8 +80,7 @@ def print_list_entries(top_list: List[Stats], length: int):
         )
         print(i, list_entry)
 
-
-def main():
+def parse_args() -> Dict[str, Any]:
     desc = "Calculate some play statistics for your retro gaming"
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument(
@@ -139,7 +138,10 @@ def main():
         help="skip the listed systems, only respected if --system is unset",
     )
 
-    args = vars(parser.parse_args())
+    return vars(parser.parse_args())
+
+def main():
+    args = parse_args()
 
     sessions = {}
     sessions = parse_log(args["file"])
