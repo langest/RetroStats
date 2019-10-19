@@ -16,7 +16,8 @@ $ python3 retro-stats/game_stats.py -f ~/RetroPie/game_stats.log
 For a full list of option use `-h` or `--help`
 ```
 usage: game_stats.py [-h] [-n LIST_LENGTH] [-f FILE] [-c CRITERIA] [-s SYSTEM]
-                     [-m MINIMUM_SESSION_LENGTH]
+                     [-m MINIMUM_SESSION_LENGTH] [-b BAR_CHART]
+                     [-e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]]
 
 Calculate some play statistics for your retro gaming
 
@@ -35,4 +36,11 @@ optional arguments:
   -m MINIMUM_SESSION_LENGTH, --minimum-session-length MINIMUM_SESSION_LENGTH
                         skip sessions shorter than this number of seconds,
                         defaults to 120
+  -b BAR_CHART, --bar-chart BAR_CHART
+                        display bar chart instead of numbers, integer sets bar
+                        length
+  -e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...], --exclude-systems EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]
+                        skip the listed systems, only respected if --system is
+                        unset
+
 ```
