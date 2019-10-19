@@ -67,6 +67,13 @@ def main():
         default=120,
         help="skip sessions shorter than this number of seconds, defaults to 120",
     )
+    parser.add_argument(
+        "-b",
+        "--bar-chart",
+        default=False,
+        help="display bar chart instead of numbers",
+        action="store_true",
+    )
 
     args = vars(parser.parse_args())
 
@@ -86,7 +93,8 @@ def main():
         top_list = top.get_top_average(sys)
     elif criteria == "median":
         top_list = top.get_top_median(sys)
-    if print_bar_chart is None:
+
+    if args["bar_chart"] is None:
         print_list_entries(top_list, args["list_length"])
     else:
         print_bar_chart(
