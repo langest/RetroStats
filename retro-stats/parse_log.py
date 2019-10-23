@@ -4,6 +4,7 @@ from typing import Dict, List, Callable, Optional
 
 from session import Session
 
+DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 
 def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, "r") as f:
@@ -17,14 +18,14 @@ def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
 
             if row["type"] == "start":
                 # Overwrite previous start if we didn't find an end tag
-                d = datetime.strptime(row["date"], "%a %d %b %H:%M:%S %Z %Y")
+                d = datetime.strptime(row["date"], DATE_FORMAT)
                 current_session = Session(game, row["system"], d)
             elif current_session is not None and row["type"] == "end":
                 if not game == current_session.game:
                     # Start and end mismatch, discard both
                     current_session = None
                     continue
-                end = datetime.strptime(row["date"], "%a %d %b %H:%M:%S %Z %Y")
+                end = datetime.strptime(row["date"], DATE_FORMAT)
                 duration = (end - current_session.start).total_seconds()
                 current_session.duration = duration
                 if system in sessions:
