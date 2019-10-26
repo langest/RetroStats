@@ -9,7 +9,9 @@ from session import Session
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 
 
-def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
+def parse_log(
+    path: str, skip_shorter_than: int = 0
+) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, "r") as f:
         fieldnames = ["date", "type", "system", "emulator", "path", "command"]
         rows = csv.DictReader(f, fieldnames, delimiter="|", skipinitialspace=True)
@@ -34,7 +36,8 @@ def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
                 # Start and end matches
                 end = datetime.strptime(row["date"], DATE_FORMAT)
                 session = Session(game, system, start.date, end)
-                sessions[system][game].append(session)
+                if session.duration >= skip_shorter_than:
+                    sessions[system][game].append(session)
                 start = None
             else:
                 raise ValueError("Bad type")
