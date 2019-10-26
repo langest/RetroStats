@@ -26,7 +26,7 @@ def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
                 start = SessionStart(date, system, game)
 
             elif row["type"] == "end":
-                if not start.system == system and not start.game == start.game:
+                if not start.system == system or not start.game == start.game:
                     # Start and end mismatch, discard data
                     start = None
                     continue
