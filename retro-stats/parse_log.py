@@ -1,6 +1,8 @@
 import csv
 from datetime import datetime
 from typing import Dict, List, Callable, Optional
+from collections import namedtuple
+from collections import defaultdict
 
 from session import Session
 
@@ -11,32 +13,29 @@ def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, "r") as f:
         fieldnames = ["date", "type", "system", "emulator", "path", "command"]
         rows = csv.DictReader(f, fieldnames, delimiter="|", skipinitialspace=True)
-        sessions = {}
-        current_session = None
+        sessions = defaultdict(lambda: defaultdict(lambda: []))
+        SessionStart = namedtuple("SessionStart", "date system game")
+        start = None
         for row in rows:
+            date = datetime.strptime(row["date"], DATE_FORMAT)
             system = row["system"]
             game = row["path"]
 
             if row["type"] == "start":
-                # Overwrite previous start if we didn't find an end tag
-                d = datetime.strptime(row["date"], DATE_FORMAT)
-                current_session = Session(game, row["system"], d)
-            elif current_session is not None and row["type"] == "end":
-                if not game == current_session.game:
-                    # Start and end mismatch, discard both
-                    current_session = None
+                # Overwrite previous values if we didn't find an end tag
+                start = SessionStart(date, system, game)
+
+            elif row["type"] == "end":
+                if not start.system == system and not start.game == start.game:
+                    # Start and end mismatch, discard data
+                    start = None
                     continue
+
+                # Start and end matches
                 end = datetime.strptime(row["date"], DATE_FORMAT)
-                duration = (end - current_session.start).total_seconds()
-                current_session.duration = duration
-                if system in sessions:
-                    if game in sessions[system]:
-                        sessions[system][game].append(current_session)
-                    else:
-                        sessions[system][game] = [current_session]
-                else:
-                    sessions[system] = {game: [current_session]}
-                current_session = None
+                session = Session(game, system, start.date, end)
+                sessions[system][game].append(session)
+                start = None
             else:
                 raise ValueError("Bad type")
     return sessions
