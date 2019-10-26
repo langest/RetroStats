@@ -44,10 +44,8 @@ def get_stats_from_sessions(
     sessions: Dict[str, Dict[str, List[Session]]], skip_shorter_than: int
 ) -> Dict[str, List[Stats]]:
     aggregate = {}
-    for sys in sessions:
-        system = sessions[sys]
-        for g in system:
-            game = system[g]
+    for system_name, system in sessions.items():
+        for game_name, game in system.items():
             times_played = len(game)
             total_time = 0
             session_lengths = []
@@ -63,9 +61,11 @@ def get_stats_from_sessions(
                 average = total_time / times_played
                 median = statistics.median(session_lengths)
 
-            stats = Stats(g, sys, times_played, total_time, average, median)
-            if sys in aggregate:
-                aggregate[sys].append(stats)
+            stats = Stats(
+                game_name, system_name, times_played, total_time, average, median
+            )
+            if system_name in aggregate:
+                aggregate[system_name].append(stats)
             else:
-                aggregate[sys] = [stats]
+                aggregate[system_name] = [stats]
     return aggregate

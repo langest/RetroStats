@@ -6,6 +6,7 @@ from session import Session
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 
+
 def parse_log(path: str,) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, "r") as f:
         fieldnames = ["date", "type", "system", "emulator", "path", "command"]
