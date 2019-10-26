@@ -1,5 +1,6 @@
 class Session:
-    def __init__(self, game, system, start, duration=None):
+    def __init__(self, game, system, start, end):
         self.game = game
         self.start = start
-        self.duration = duration
+        self.end = end
+        self.duration = (end - start).total_seconds()
