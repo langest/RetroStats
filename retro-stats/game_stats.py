@@ -152,8 +152,8 @@ def main():
     args = parse_args()
 
     sessions = {}
-    sessions = parse_log(args["file"])
-    stats = get_stats_from_sessions(sessions, args["minimum_session_length"])
+    sessions = parse_log(args["file"], args["minimum_session_length"])
+    stats = get_stats_from_sessions(sessions)
     top = TopList(stats)
 
     sys = args["system"]

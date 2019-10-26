@@ -41,7 +41,7 @@ class Stats:
 
 
 def get_stats_from_sessions(
-    sessions: Dict[str, Dict[str, List[Session]]], skip_shorter_than: int
+    sessions: Dict[str, Dict[str, List[Session]]]
 ) -> Dict[str, List[Stats]]:
     aggregate = {}
     for system_name, system in sessions.items():
@@ -50,9 +50,6 @@ def get_stats_from_sessions(
             total_time = 0
             session_lengths = []
             for session in game:
-                if skip_shorter_than and session.duration < skip_shorter_than:
-                    times_played -= 1
-                    continue
                 session_lengths.append(session.duration)
                 total_time += session.duration
             average = 0
