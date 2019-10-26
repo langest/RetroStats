@@ -35,7 +35,7 @@ def parse_log(
 
                 # Start and end matches
                 end = datetime.strptime(row["date"], DATE_FORMAT)
-                session = Session(game, system, start.date, end)
+                session = Session(start.date, end)
                 if session.duration >= skip_shorter_than:
                     sessions[system][game].append(session)
                 start = None
