@@ -10,9 +10,18 @@ class Schedule:
         for system_name, system in sessions.items():
             for game_name, game in system.items():
                 for session in game:
-                    self.add_session(system, game, session.start, session.end)
+                    self._add_session(system, game, session.start, session.end)
+        local = datetime.now()
+        utc = datetime.utcnow()
+        diff = (
+            int((local - utc).days * 86400 + round((local - utc).seconds, -1)) // 3600
+        )
+        tmp = {}
+        for k, v in self._schedule.items():
+            tmp[(k + diff) % 24] = v
+        self._schedule = tmp
 
-    def add_session(self, system: str, game: str, start: datetime, end: datetime):
+    def _add_session(self, system: str, game: str, start: datetime, end: datetime):
         bucket = start.hour
         if end.hour == bucket:
             self._schedule[bucket] += (end - start).total_seconds()
@@ -28,7 +37,7 @@ class Schedule:
         )
         self._schedule[bucket] += (bucket_end - start).total_seconds()
 
-        self.add_session(system, game, bucket_end, end)
+        self._add_session(system, game, bucket_end, end)
 
     def print_daily_schedule(self):
         gradient = " ░░░▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓████████████"
