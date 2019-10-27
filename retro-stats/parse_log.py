@@ -10,7 +10,10 @@ DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 
 
 def parse_log(
-    path: str, skip_shorter_than: int = 0
+    path: str,
+    systems: Optional[List[str]] = None,
+    exclude_systems: Optional[List[str]] = None,
+    skip_shorter_than: Optional[int] = 0,
 ) -> Dict[str, Dict[str, List[Session]]]:
     with open(path, "r") as f:
         fieldnames = ["date", "type", "system", "emulator", "path", "command"]
@@ -19,8 +22,13 @@ def parse_log(
         SessionStart = namedtuple("SessionStart", "date system game")
         start = None
         for row in rows:
-            date = datetime.strptime(row["date"], DATE_FORMAT)
             system = row["system"]
+            if systems is not None and system not in systems:
+                continue
+            if exclude_systems is not None and system in exclude_systems:
+                continue
+
+            date = datetime.strptime(row["date"], DATE_FORMAT)
             game = row["path"]
 
             if row["type"] == "start":
@@ -28,6 +36,9 @@ def parse_log(
                 start = SessionStart(date, system, game)
 
             elif row["type"] == "end":
+                if start is None:
+                    # Missing start for this end
+                    continue
                 if not start.system == system or not start.game == start.game:
                     # Start and end mismatch, discard data
                     start = None
