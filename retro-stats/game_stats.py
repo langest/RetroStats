@@ -15,14 +15,14 @@ def parse_args() -> Dict[str, Any]:
         "--list-length",
         type=int,
         default=25,
-        help="how many entries to print int the top list",
+        help="how many entries to print int the top list, defaults to 25",
     )
     parser.add_argument(
         "-f",
         "--file",
         type=str,
         default="/home/pi/RetroPie/game_stats.log",
-        help="path to the stats file",
+        help="path to the stats file, defaults to /home/pi/RetroPe/game_stats.log",
     )
     parser.add_argument(
         "-c",
@@ -36,14 +36,6 @@ def parse_args() -> Dict[str, Any]:
         "defaults to total",
     )
     parser.add_argument(
-        "-s",
-        "--systems",
-        type=str,
-        default=None,
-        nargs="+",
-        help="the systems you want statistics for, if omitted, will use all systems",
-    )
-    parser.add_argument(
         "-m",
         "--minimum-session-length",
         type=int,
@@ -51,10 +43,12 @@ def parse_args() -> Dict[str, Any]:
         help="skip sessions shorter than this number of seconds, defaults to 120",
     )
     parser.add_argument(
-        "-b",
-        "--bar-chart",
-        type=int,
-        help="display bar chart instead of numbers, integer sets bar length",
+        "-s",
+        "--systems",
+        type=str,
+        default=None,
+        nargs="+",
+        help="the systems you want statistics for, default will use all systems",
     )
     parser.add_argument(
         "-e",
@@ -62,7 +56,13 @@ def parse_args() -> Dict[str, Any]:
         type=str,
         default=None,
         nargs="+",
-        help="skip the listed systems, only respected if --system is unset",
+        help="skip the listed systems, default no systems",
+    )
+    parser.add_argument(
+        "-b",
+        "--bar-chart",
+        type=int,
+        help="display bar chart instead of numbers, integer sets bar length",
     )
 
     return vars(parser.parse_args())
