@@ -64,8 +64,8 @@ def parse_args() -> Dict[str, Any]:
     group.add_argument(
         "-d",
         "--daily-schedule",
-        type=int,
-        help="display daily time schedule, integer sets bar length",
+        action='store_true',
+        help="display daily time schedule",
     )
     group.add_argument(
         "-b",
