@@ -88,7 +88,7 @@ def main():
         args["minimum_session_length"],
     )
 
-    if not args["daily_schedule"] is None:
+    if args["daily_schedule"]:
         schedule = Schedule(sessions)
         schedule.print_daily_schedule()
         return
