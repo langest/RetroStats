@@ -44,10 +44,11 @@ class Schedule:
         max_value = max(self._schedule.values())
         increment = max_value / (len(gradient) - 1)
         result_num = ""
-        result_blk = ""
+        result_blk = "  "
         for hour in sorted(self._schedule):
             block = int(self._schedule[hour] // increment)
             result_num += " {} ".format(str(hour).rjust(2))
             result_blk += gradient[block] * 4
+        result_num += " 24"
         print(result_num)
         print(result_blk)
