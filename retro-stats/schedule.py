@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from session import Session
 
 
-class Frequency:
+class Schedule:
     def __init__(self, sessions: Dict[str, Dict[str, List[Session]]]):
         self._schedule = {x: 0 for x in range(0, 24)}
         for system_name, system in sessions.items():
