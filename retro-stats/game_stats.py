@@ -5,6 +5,7 @@ from typing import Dict, Any
 from parse_log import parse_log
 from stats import get_stats_from_sessions, Stats
 from top_list import TopList
+from schedule import Schedule
 
 
 def parse_args() -> Dict[str, Any]:
@@ -29,7 +30,8 @@ def parse_args() -> Dict[str, Any]:
         "--criteria",
         type=str,
         default=None,
-        help="which criteria to order by, available options "
+        help="which criteria to order by, disabled for schedule option, "
+        "available options "
         "are: total (time), times (played), "
         "average (session length), "
         "median (session length), "
@@ -58,7 +60,14 @@ def parse_args() -> Dict[str, Any]:
         nargs="+",
         help="skip the listed systems, default no systems",
     )
-    parser.add_argument(
+    group = parser.add_mutually_exclusive_group()
+    group.add_argument(
+        "-d",
+        "--daily-schedule",
+        type=int,
+        help="display daily time schedule, integer sets bar length",
+    )
+    group.add_argument(
         "-b",
         "--bar-chart",
         type=int,
@@ -78,6 +87,12 @@ def main():
         args["exclude_systems"],
         args["minimum_session_length"],
     )
+
+    if not args["daily_schedule"] is None:
+        schedule = Schedule(sessions)
+        schedule.print_daily_schedule()
+        return
+
     stats = get_stats_from_sessions(sessions)
     top = TopList(stats)
 
@@ -89,8 +104,9 @@ def main():
             args["bar_chart"],
             args["list_length"],
         )
-    else:
-        top.print_list_entries(criteria, args["list_length"])
+        return
+
+    top.print_list_entries(criteria, args["list_length"])
 
 
 if __name__ == "__main__":
