@@ -67,7 +67,7 @@ class TopList:
 
             def g(x):
                 r = x.get_median_session_time()
-                return r, str(datetime.timedelta(seconds=r))
+                return r, str(self._trim_microseconds(datetime.timedelta(seconds=r)))
 
             f = g
 
