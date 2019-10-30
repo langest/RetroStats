@@ -62,10 +62,10 @@ def parse_args() -> Dict[str, Any]:
     )
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        "-d",
-        "--daily-schedule",
-        action='store_true',
-        help="display daily time schedule",
+        "-w",
+        "--weekly-schedule",
+        action="store_true",
+        help="display weekly time schedule",
     )
     group.add_argument(
         "-b",
@@ -88,9 +88,9 @@ def main():
         args["minimum_session_length"],
     )
 
-    if args["daily_schedule"]:
+    if args["weekly_schedule"]:
         schedule = Schedule(sessions)
-        schedule.print_daily_schedule()
+        schedule.print_schedule()
         return
 
     stats = get_stats_from_sessions(sessions)
