@@ -60,6 +60,14 @@ def parse_args() -> Dict[str, Any]:
         nargs="+",
         help="skip the listed systems, default no systems",
     )
+    parser.add_argument(
+        "-l",
+        "--lookback",
+        type=int,
+        default=0,
+        help="Number of days lookback to use for the stats, defaults to no limit (0)",
+    )
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
         "-w",
@@ -86,7 +94,10 @@ def main():
         args["systems"],
         args["exclude_systems"],
         args["minimum_session_length"],
+        args["lookback"],
     )
+    if len(sessions) == 0:
+        print("No sessions found")
 
     if args["weekly_schedule"]:
         schedule = Schedule(sessions)

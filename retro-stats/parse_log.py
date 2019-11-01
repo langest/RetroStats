@@ -1,5 +1,5 @@
 import csv
-from datetime import datetime
+import datetime
 from typing import Dict, List, Callable, Optional
 from collections import namedtuple
 from collections import defaultdict
@@ -14,7 +14,15 @@ def parse_log(
     systems: Optional[List[str]] = None,
     exclude_systems: Optional[List[str]] = None,
     skip_shorter_than: Optional[int] = 0,
+    lookback: int = 0,
 ) -> Dict[str, Dict[str, List[Session]]]:
+    start_date = datetime.datetime.min
+    if lookback > 0:
+        start_date = datetime.datetime.now()
+        start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
+        start_date -= datetime.timedelta(days=lookback)
+    start_date = start_date.replace(tzinfo=datetime.timezone.utc)
+
     with open(path, "r") as f:
         fieldnames = ["date", "type", "system", "emulator", "path", "command"]
         rows = csv.DictReader(f, fieldnames, delimiter="|", skipinitialspace=True)
@@ -28,7 +36,9 @@ def parse_log(
             if exclude_systems is not None and system in exclude_systems:
                 continue
 
-            date = datetime.strptime(row["date"], DATE_FORMAT)
+            date = datetime.datetime.strptime(row["date"], DATE_FORMAT)
+            if date < start_date:
+                continue
             game = row["path"]
 
             if row["type"] == "start":
@@ -45,7 +55,7 @@ def parse_log(
                     continue
 
                 # Start and end matches
-                end = datetime.strptime(row["date"], DATE_FORMAT)
+                end = datetime.datetime.strptime(row["date"], DATE_FORMAT)
                 session = Session(start.date, end)
                 if session.duration >= skip_shorter_than:
                     sessions[system][game].append(session)
