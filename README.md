@@ -15,18 +15,18 @@ $ python3 retro-stats/game_stats.py -f ~/RetroPie/game_stats.log
 
 For a full list of option use `-h` or `--help`
 ```
+$ python3 /home/pi/repos/RetroStats/retro-stats/game_stats.py -h
 usage: game_stats.py [-h] [-n LIST_LENGTH] [-f FILE] [-c CRITERIA]
                      [-m MINIMUM_SESSION_LENGTH] [-s SYSTEMS [SYSTEMS ...]]
-                     [-e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]]
-                     [-d DAILY_SCHEDULE | -b BAR_CHART]
+                     [-e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]] [-l LOOKBACK]
+                     [-w | -b BAR_CHART | -r]
 
 Calculate some play statistics for your retro gaming
 
 optional arguments:
   -h, --help            show this help message and exit
   -n LIST_LENGTH, --list-length LIST_LENGTH
-                        how many entries to print int the top list, defaults
-                        to 25
+                        how many entries to print, defaults to 25
   -f FILE, --file FILE  path to the stats file, defaults to
                         /home/pi/RetroPe/game_stats.log
   -c CRITERIA, --criteria CRITERIA
@@ -42,9 +42,15 @@ optional arguments:
                         all systems
   -e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...], --exclude-systems EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]
                         skip the listed systems, default no systems
-  -d DAILY_SCHEDULE, --daily-schedule DAILY_SCHEDULE
-                        display daily time schedule, integer sets bar length
+  -l LOOKBACK, --lookback LOOKBACK
+                        Number of days lookback to use for the stats, defaults
+                        to no limit (0)
+  -w, --weekly-schedule
+                        display weekly time schedule
   -b BAR_CHART, --bar-chart BAR_CHART
                         display bar chart instead of numbers, integer sets bar
                         length
+  -r, --recently_played
+                        print your game history
+
 ```
