@@ -6,6 +6,7 @@ from parse_log import parse_log
 from stats import get_stats_from_sessions, Stats
 from top_list import TopList
 from schedule import Schedule
+from history import History
 
 
 def parse_args() -> Dict[str, Any]:
@@ -16,7 +17,7 @@ def parse_args() -> Dict[str, Any]:
         "--list-length",
         type=int,
         default=25,
-        help="how many entries to print int the top list, defaults to 25",
+        help="how many entries to print, defaults to 25",
     )
     parser.add_argument(
         "-f",
@@ -60,18 +61,32 @@ def parse_args() -> Dict[str, Any]:
         nargs="+",
         help="skip the listed systems, default no systems",
     )
+    parser.add_argument(
+        "-l",
+        "--lookback",
+        type=int,
+        default=0,
+        help="Number of days lookback to use for the stats, defaults to no limit (0)",
+    )
+
     group = parser.add_mutually_exclusive_group()
     group.add_argument(
-        "-d",
-        "--daily-schedule",
-        action='store_true',
-        help="display daily time schedule",
+        "-w",
+        "--weekly-schedule",
+        action="store_true",
+        help="display weekly time schedule",
     )
     group.add_argument(
         "-b",
         "--bar-chart",
         type=int,
         help="display bar chart instead of numbers, integer sets bar length",
+    )
+    group.add_argument(
+        "-r",
+        "--recently_played",
+        action="store_true",
+        help="print your game history",
     )
 
     return vars(parser.parse_args())
@@ -86,11 +101,20 @@ def main():
         args["systems"],
         args["exclude_systems"],
         args["minimum_session_length"],
+        args["lookback"],
     )
+    if len(sessions) == 0:
+        print("No sessions found")
 
-    if args["daily_schedule"]:
+    if args["weekly_schedule"]:
         schedule = Schedule(sessions)
-        schedule.print_daily_schedule()
+        schedule.print_schedule()
+        return
+
+
+    if args["recently_played"]:
+        history = History(sessions, args["list_length"])
+        history.print_history()
         return
 
     stats = get_stats_from_sessions(sessions)

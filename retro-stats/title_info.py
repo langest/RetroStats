@@ -19,4 +19,4 @@ def get_title(rom_path, system) -> str:
         name_node = node.find("name")
         if not name_node is None:
             return name_node.text
-        return default
+    return default

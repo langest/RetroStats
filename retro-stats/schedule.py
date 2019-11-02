@@ -6,7 +6,7 @@ from session import Session
 
 class Schedule:
     def __init__(self, sessions: Dict[str, Dict[str, List[Session]]]):
-        self._schedule = {x: 0 for x in range(0, 24)}
+        self._schedule = {x: {y: 0 for y in range(0, 24)} for x in range(0, 7)}
         for system_name, system in sessions.items():
             for game_name, game in system.items():
                 for session in game:
@@ -22,9 +22,10 @@ class Schedule:
         self._schedule = tmp
 
     def _add_session(self, system: str, game: str, start: datetime, end: datetime):
+        weekday = start.weekday()
         bucket = start.hour
-        if end.hour == bucket:
-            self._schedule[bucket] += (end - start).total_seconds()
+        if end.hour == bucket and weekday == end.weekday():
+            self._schedule[weekday][bucket] += (end - start).total_seconds()
             return
         bucket_end = (
             start
@@ -35,20 +36,33 @@ class Schedule:
             )
             + timedelta(hours=1)
         )
-        self._schedule[bucket] += (bucket_end - start).total_seconds()
+        self._schedule[weekday][bucket] += (bucket_end - start).total_seconds()
 
         self._add_session(system, game, bucket_end, end)
 
-    def print_daily_schedule(self):
+    def print_schedule(self):
         gradient = " ░░░▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓████████████"
-        max_value = max(self._schedule.values())
+        max_value = -1
+        for day in self._schedule.values():
+            max_value = max(max(day.values()), max_value)
         increment = max_value / (len(gradient) - 1)
-        result_num = ""
-        result_blk = "  "
-        for hour in sorted(self._schedule):
-            block = int(self._schedule[hour] // increment)
-            result_num += " {} ".format(str(hour).rjust(2))
-            result_blk += gradient[block] * 4
-        result_num += " 24"
-        print(result_num)
-        print(result_blk)
+        day_names = [
+            "Monday",
+            "Tuesday",
+            "Wednesday",
+            "Thursday",
+            "Friday",
+            "Saturday",
+            "Sunday",
+        ]
+        for weekday, hours in sorted(self._schedule.items()):
+            result_num = ""
+            result_blk = "  "
+            for hour, value in sorted(hours.items()):
+                block = int(value // increment)
+                result_num += " {} ".format(str(hour).rjust(2))
+                result_blk += gradient[block] * 4
+            result_num += " 24"
+            print(day_names[weekday])
+            print(result_num)
+            print(result_blk)
