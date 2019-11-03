@@ -20,7 +20,7 @@ def parse_log(
     if lookback > 0:
         start_date = datetime.datetime.now()
         start_date = start_date.replace(hour=0, minute=0, second=0, microsecond=0)
-        start_date -= datetime.timedelta(days=lookback)
+        start_date -= datetime.timedelta(days=(lookback - 1))
     start_date = start_date.replace(tzinfo=datetime.timezone.utc)
 
     with open(path, "r") as f:

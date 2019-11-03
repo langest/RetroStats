@@ -83,10 +83,7 @@ def parse_args() -> Dict[str, Any]:
         help="display bar chart instead of numbers, integer sets bar length",
     )
     group.add_argument(
-        "-r",
-        "--recently_played",
-        action="store_true",
-        help="print your game history",
+        "-r", "--recently_played", action="store_true", help="print your game history"
     )
 
     return vars(parser.parse_args())
@@ -110,7 +107,6 @@ def main():
         schedule = Schedule(sessions)
         schedule.print_schedule()
         return
-
 
     if args["recently_played"]:
         history = History(sessions, args["list_length"])
