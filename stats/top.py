@@ -2,7 +2,7 @@ from typing import List, Dict, Callable, Any
 import datetime
 
 from stats import Stats
-from title_info import get_title
+from title import get_title
 
 
 class TopList:

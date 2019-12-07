@@ -2,9 +2,9 @@ import argparse
 import os.path
 from typing import Dict, Any
 
-from parse_log import parse_log
+from log import parse_log
 from stats import get_stats_from_sessions, Stats
-from top_list import TopList
+from top import TopList
 from schedule import Schedule
 from history import History
 
