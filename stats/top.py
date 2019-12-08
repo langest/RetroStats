@@ -26,10 +26,10 @@ class TopList:
         return sorted(stats, key=key, reverse=True)
 
     @staticmethod
-    def _trim_microseconds(td: datetime.timedelta) -> datetime.timedelta:
-        return td - datetime.timedelta(microseconds=td.microseconds)
+    def _trim_microseconds(td: datetime.timedelta) -> str:
+        return str(td - datetime.timedelta(microseconds=td.microseconds))
 
-    def _get_top(self, criteria: str):
+    def _get_top(self, criteria: str) -> List[Stats]:
         if criteria == "total" or criteria is None:
             return self._get_top_total_time()
         elif criteria == "times":
@@ -39,7 +39,7 @@ class TopList:
         elif criteria == "median":
             return self._get_top_median()
 
-    def print_bar_chart(self, criteria: str, bar_length: int, list_length: int):
+    def print_bar_chart(self, criteria: str, bar_length: int, list_length: int = -1):
         top_list = self._get_top(criteria)
         f = None
         if criteria == "total" or criteria is None:
@@ -60,14 +60,14 @@ class TopList:
 
             def g(x):
                 r = x.get_average_session_time()
-                return r, str(self._trim_microseconds(datetime.timedelta(seconds=r)))
+                return r, self._trim_microseconds(datetime.timedelta(seconds=r))
 
             f = g
         elif criteria == "median":
 
             def g(x):
                 r = x.get_median_session_time()
-                return r, str(self._trim_microseconds(datetime.timedelta(seconds=r)))
+                return r, self._trim_microseconds(datetime.timedelta(seconds=r))
 
             f = g
 
@@ -91,23 +91,32 @@ class TopList:
                 f"{value_string.rjust(longest_value_length)} {bar}"
             )
 
-    def print_list_entries(self, criteria: str, length: int) -> List[Stats]:
-        top_list = self.get_list_entries(criteria)
+    def get_list_entries(self, criteria:str, length: int = -1) -> Dict[str, any]:
+        result = []
+        top_list = self._get_top(criteria)
+        for g in top_list[:length]:
+            stats_dict = {
+                "title": get_title(g.get_game(), g.get_system()),
+                "system": g.get_system(),
+                "times": g.get_times_played(),
+                "total": self._trim_microseconds(datetime.timedelta(seconds=g.get_total_time_played())),
+                "mean": self._trim_microseconds(
+                    datetime.timedelta(seconds=g.get_average_session_time())
+                ),
+                "median": self._trim_microseconds(datetime.timedelta(seconds=g.get_median_session_time())),
+            }
+            result.append(stats_dict)
+        return result
 
-        for i, g in enumerate(top_list[:length], start=1):
-            title = get_title(g.get_game(), g.get_system())
-            system = g.get_system()
-            times = g.get_times_played()
-            total = datetime.timedelta(seconds=g.get_total_time_played())
-            mean = self._trim_microseconds(
-                datetime.timedelta(seconds=g.get_average_session_time())
+    def print_list_entries(self, criteria: str, length: int = -1) -> List[Stats]:
+        game_list = self.get_list_entries(criteria, length)
+
+        for i, g in enumerate(game_list , start=1):
+            print(
+                i,
+                f"{g['title']} for {g['system']}, ",
+                f"played {g['times']} times, ",
+                f"time played: {g['total']}, ",
+                f"avg: {g['mean']}, ",
+                f"median: {g['median']}",
             )
-            median = datetime.timedelta(seconds=g.get_median_session_time())
-            list_entry = (
-                f"{title} for {system}, "
-                f"played {times} times, "
-                f"time played: {total}, "
-                f"avg: {mean}, "
-                f"median: {median}"
-            )
-            print(i, list_entry)
