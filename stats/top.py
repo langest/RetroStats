@@ -87,30 +87,27 @@ class TopList:
                 bar += chr(ord("█") + (8 - remainder))
             bar = bar or "▏"
             print(
-                "{} ▏ {} {}".format(
-                    title.rjust(longest_label_length),
-                    value_string.rjust(longest_value_length),
-                    bar,
-                )
+                f"{title.rjust(longest_label_length)} ▏ "
+                f"{value_string.rjust(longest_value_length)} {bar}"
             )
 
-    def print_list_entries(self, criteria, length: int):
-        top_list = self._get_top(criteria)
+    def print_list_entries(self, criteria: str, length: int) -> List[Stats]:
+        top_list = self.get_list_entries(criteria)
 
         for i, g in enumerate(top_list[:length], start=1):
-            list_entry = (
-                "{} for {}, played {} times, " "time played: {}, avg: {}, median: {}"
-            )
             title = get_title(g.get_game(), g.get_system())
-
-            list_entry = list_entry.format(
-                title,
-                g.get_system(),
-                g.get_times_played(),
-                datetime.timedelta(seconds=g.get_total_time_played()),
-                self._trim_microseconds(
-                    datetime.timedelta(seconds=g.get_average_session_time())
-                ),
-                datetime.timedelta(seconds=g.get_median_session_time()),
+            system = g.get_system()
+            times = g.get_times_played()
+            total = datetime.timedelta(seconds=g.get_total_time_played())
+            mean = self._trim_microseconds(
+                datetime.timedelta(seconds=g.get_average_session_time())
+            )
+            median = datetime.timedelta(seconds=g.get_median_session_time())
+            list_entry = (
+                f"{title} for {system}, "
+                f"played {times} times, "
+                f"time played: {total}, "
+                f"avg: {mean}, "
+                f"median: {median}"
             )
             print(i, list_entry)
