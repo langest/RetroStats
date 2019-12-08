@@ -102,6 +102,7 @@ def main():
     )
     if len(sessions) == 0:
         print("No sessions found")
+        return
 
     if args["weekly_schedule"]:
         schedule = Schedule(sessions)

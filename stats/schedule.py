@@ -45,7 +45,12 @@ class Schedule:
         max_value = -1
         for day in self._schedule.values():
             max_value = max(max(day.values()), max_value)
+
         increment = max_value / (len(gradient) - 1)
+        if increment == 0:
+            print("Could not find any activity")
+            return
+
         day_names = [
             "Monday",
             "Tuesday",
