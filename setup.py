@@ -1,0 +1,18 @@
+from setuptools import setup, find_packages
+
+setup(
+    name="RetroStats",
+    version="0.0.0",
+    description="Game statistics for RetroPie",
+    author="Daniel Langesten",
+    author_email="",
+    python_requires=">=3.7.0",
+    packages=find_packages(),
+    install_requires=["flask"],
+    entry_points={
+        "console_scripts": [
+            "retro-stats-cli=stats.main:main",
+            "retro-stats-server=server.server:main",
+        ]
+    },
+)
