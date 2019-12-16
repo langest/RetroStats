@@ -91,7 +91,7 @@ class TopList:
                 f"{value_string.rjust(longest_value_length)} {bar}"
             )
 
-    def get_list_entries(self, criteria:str, length: int = -1) -> Dict[str, any]:
+    def get_list_entries(self, criteria: str, length: int = -1) -> Dict[str, any]:
         result = []
         top_list = self._get_top(criteria)
         for g in top_list[:length]:
@@ -99,11 +99,15 @@ class TopList:
                 "title": get_title(g.get_game(), g.get_system()),
                 "system": g.get_system(),
                 "times": g.get_times_played(),
-                "total": self._trim_microseconds(datetime.timedelta(seconds=g.get_total_time_played())),
+                "total": self._trim_microseconds(
+                    datetime.timedelta(seconds=g.get_total_time_played())
+                ),
                 "mean": self._trim_microseconds(
                     datetime.timedelta(seconds=g.get_average_session_time())
                 ),
-                "median": self._trim_microseconds(datetime.timedelta(seconds=g.get_median_session_time())),
+                "median": self._trim_microseconds(
+                    datetime.timedelta(seconds=g.get_median_session_time())
+                ),
             }
             result.append(stats_dict)
         return result
@@ -111,7 +115,7 @@ class TopList:
     def print_list_entries(self, criteria: str, length: int = -1) -> List[Stats]:
         game_list = self.get_list_entries(criteria, length)
 
-        for i, g in enumerate(game_list , start=1):
+        for i, g in enumerate(game_list, start=1):
             print(
                 i,
                 f"{g['title']} for {g['system']}, ",
