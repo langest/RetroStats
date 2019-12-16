@@ -1,8 +1,8 @@
 from typing import List, Dict, Callable, Any
 import datetime
 
-from stats import Stats
-from title import get_title
+from stats.stats import Stats
+from stats.title import get_title
 
 
 class TopList:

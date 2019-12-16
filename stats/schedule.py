@@ -1,7 +1,7 @@
 from typing import Dict, List
 from datetime import datetime, timedelta
 
-from session import Session
+from stats.session import Session
 
 
 class Schedule:

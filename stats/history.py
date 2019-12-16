@@ -1,7 +1,7 @@
 from typing import Dict, List
 
-from session import Session
-from title import get_title
+from stats.session import Session
+from stats.title import get_title
 
 
 class History:

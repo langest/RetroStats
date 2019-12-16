@@ -1,7 +1,7 @@
 import statistics
 from typing import Dict, List
 
-from session import Session
+from stats.session import Session
 
 
 class Stats:

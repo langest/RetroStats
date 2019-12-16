@@ -2,11 +2,11 @@ import argparse
 import os.path
 from typing import Dict, Any
 
-from log import parse_log
-from stats import get_stats_from_sessions, Stats
-from top import TopList
-from schedule import Schedule
-from history import History
+from stats.log import parse_log
+from stats.stats import get_stats_from_sessions, Stats
+from stats.top import TopList
+from stats.schedule import Schedule
+from stats.history import History
 
 
 def parse_args() -> Dict[str, Any]:

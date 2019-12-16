@@ -4,7 +4,7 @@ from typing import Dict, List, Callable, Optional
 from collections import namedtuple
 from collections import defaultdict
 
-from session import Session
+from stats.session import Session
 
 DATE_FORMAT = "%Y-%m-%dT%H:%M:%S%z"
 
