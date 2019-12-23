@@ -91,9 +91,11 @@ class TopList:
                 f"{value_string.rjust(longest_value_length)} {bar}"
             )
 
-    def get_list_entries_raw(self, criteria: str, length: int = -1) -> Dict[str, any]:
+    def get_list_entries_raw(self, criteria: str, length: int = 0) -> List[Dict[str, any]]:
         result = []
         top_list = self._get_top(criteria)
+        if length == 0:
+            length = len(top_list)
         for g in top_list[:length]:
             stats_dict = {
                 "title": get_title(g.get_game(), g.get_system()),
@@ -106,26 +108,13 @@ class TopList:
             result.append(stats_dict)
         return result
 
-    def get_list_entries(self, criteria: str, length: int = -1) -> Dict[str, any]:
-        result = []
-        top_list = self._get_top(criteria)
-        for g in top_list[:length]:
-            stats_dict = {
-                "title": get_title(g.get_game(), g.get_system()),
-                "system": g.get_system(),
-                "times": g.get_times_played(),
-                "total": self._trim_microseconds(
-                    datetime.timedelta(seconds=g.get_total_time_played())
-                ),
-                "mean": self._trim_microseconds(
-                    datetime.timedelta(seconds=g.get_average_session_time())
-                ),
-                "median": self._trim_microseconds(
-                    datetime.timedelta(seconds=g.get_median_session_time())
-                ),
-            }
-            result.append(stats_dict)
-        return result
+    def get_list_entries(self, criteria: str, length: int = 0) -> List[Dict[str, any]]:
+        entries = get_list_entries_raw(criteria, length)
+        for e in entries:
+            e["total"] = self._trim_microseconds(e["total"]),
+            e["mean"] = self._trim_microseconds(e["mean"]),
+            e["median"] = self._trim_microseconds(e["median"]),
+        return entries
 
     def print_list_entries(self, criteria: str, length: int = -1) -> List[Stats]:
         game_list = self.get_list_entries(criteria, length)
