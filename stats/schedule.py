@@ -40,6 +40,9 @@ class Schedule:
 
         self._add_session(system, game, bucket_end, end)
 
+    def get_schedule_data(self) -> Dict[str, Dict[str, int]]:
+        return self._schedule
+
     def print_schedule(self):
         gradient = " ░░░▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓████████████"
         max_value = -1
