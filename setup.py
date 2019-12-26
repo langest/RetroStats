@@ -12,7 +12,7 @@ setup(
     entry_points={
         "console_scripts": [
             "retro-stats-cli=stats.main:main",
-            "retro-stats-server=server.server:main",
+            "retro-stats-server=server.main:main",
         ]
     },
 )
