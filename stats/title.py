@@ -17,6 +17,6 @@ def get_title(rom_path, system) -> str:
         if not os.path.basename(path_node.text) == os.path.basename(rom_path):
             continue
         name_node = node.find("name")
-        if not name_node is None:
+        if name_node is not None:
             return name_node.text
     return default

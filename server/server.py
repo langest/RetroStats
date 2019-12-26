@@ -4,8 +4,9 @@ from flask import render_template
 from flask import request
 
 from stats.log import parse_log
-from stats.stats import get_stats_from_sessions, Stats
+from stats.gamestats import get_stats_from_sessions
 from stats.top import TopList
+from stats.schedule import Schedule
 
 app = Flask(__name__)
 

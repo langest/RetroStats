@@ -1,35 +1,36 @@
 from typing import List, Dict, Callable, Any
 import datetime
 
-from stats.stats import Stats
+from stats.gamestats import GameStats
 from stats.title import get_title
 
 
 class TopList:
-    def __init__(self, stats: Dict[str, List[Stats]]):
+    def __init__(self, stats: Dict[str, List[GameStats]]):
         self._stats = stats
 
-    def _get_top_times_played(self) -> List[Stats]:
+    def _get_top_times_played(self) -> List[GameStats]:
         return self._get_sorted(lambda x: x.times_played)
 
-    def _get_top_total_time(self) -> List[Stats]:
+    def _get_top_total_time(self) -> List[GameStats]:
         return self._get_sorted(lambda x: x.total_time)
 
-    def _get_top_average(self) -> List[Stats]:
+    def _get_top_average(self) -> List[GameStats]:
         return self._get_sorted(lambda x: x.average)
 
-    def _get_top_median(self) -> List[Stats]:
+    def _get_top_median(self) -> List[GameStats]:
         return self._get_sorted(lambda x: x.median)
 
-    def _get_sorted(self, key: Callable[[Stats], Any]) -> List[Stats]:
+    def _get_sorted(self, key: Callable[[GameStats], Any]) -> List[GameStats]:
         stats = [x for y in list(self._stats.values()) for x in y]
         return sorted(stats, key=key, reverse=True)
 
     @staticmethod
-    def _trim_microseconds(td: datetime.timedelta) -> str:
+    def _trim_microseconds(delta: float) -> str:
+        td = datetime.timedelta(delta)
         return str(td - datetime.timedelta(microseconds=td.microseconds))
 
-    def _get_top(self, criteria: str) -> List[Stats]:
+    def _get_top(self, criteria: str) -> List[GameStats]:
         if criteria == "total" or criteria is None:
             return self._get_top_total_time()
         elif criteria == "times":
@@ -91,7 +92,9 @@ class TopList:
                 f"{value_string.rjust(longest_value_length)} {bar}"
             )
 
-    def get_list_entries_raw(self, criteria: str, length: int = 0) -> List[Dict[str, any]]:
+    def get_list_entries_raw(
+        self, criteria: str, length: int = 0
+    ) -> List[Dict[str, any]]:
         result = []
         top_list = self._get_top(criteria)
         if length == 0:
@@ -109,14 +112,14 @@ class TopList:
         return result
 
     def get_list_entries(self, criteria: str, length: int = 0) -> List[Dict[str, any]]:
-        entries = get_list_entries_raw(criteria, length)
+        entries = self.get_list_entries_raw(criteria, length)
         for e in entries:
-            e["total"] = self._trim_microseconds(e["total"]),
-            e["mean"] = self._trim_microseconds(e["mean"]),
-            e["median"] = self._trim_microseconds(e["median"]),
+            e["total"] = (self._trim_microseconds(e["total"]),)
+            e["mean"] = (self._trim_microseconds(e["mean"]),)
+            e["median"] = (self._trim_microseconds(e["median"]),)
         return entries
 
-    def print_list_entries(self, criteria: str, length: int = -1) -> List[Stats]:
+    def print_list_entries(self, criteria: str, length: int = -1) -> List[GameStats]:
         game_list = self.get_list_entries(criteria, length)
 
         for i, g in enumerate(game_list, start=1):

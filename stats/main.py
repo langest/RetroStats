@@ -1,9 +1,8 @@
 import argparse
-import os.path
 from typing import Dict, Any
 
-from stats.log import parse_log
-from stats.stats import get_stats_from_sessions, Stats
+from stats.log import Log
+from stats.gamestats import get_stats_from_sessions
 from stats.top import TopList
 from stats.schedule import Schedule
 from stats.history import History
@@ -92,13 +91,12 @@ def parse_args() -> Dict[str, Any]:
 def main():
     args = parse_args()
 
-    sessions = {}
-    sessions = parse_log(
-        args["file"],
+    log = Log(args["file"])
+    sessions = log.get_sessions(
         args["systems"],
         args["exclude_systems"],
         args["minimum_session_length"],
-        args["lookback"],
+        args["lookback"]
     )
     if len(sessions) == 0:
         print("No sessions found")
