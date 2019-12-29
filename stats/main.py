@@ -1,12 +1,11 @@
 import argparse
-import os.path
 from typing import Dict, Any
 
-from parse_log import parse_log
-from stats import get_stats_from_sessions, Stats
-from top_list import TopList
-from schedule import Schedule
-from history import History
+from stats.log import Log
+from stats.gamestats import get_stats_from_sessions
+from stats.top import TopList
+from stats.schedule import Schedule
+from stats.history import History
 
 
 def parse_args() -> Dict[str, Any]:
@@ -86,47 +85,42 @@ def parse_args() -> Dict[str, Any]:
         "-r", "--recently_played", action="store_true", help="print your game history"
     )
 
-    return vars(parser.parse_args())
+    return parser.parse_args()
 
 
 def main():
     args = parse_args()
 
-    sessions = {}
-    sessions = parse_log(
-        args["file"],
-        args["systems"],
-        args["exclude_systems"],
-        args["minimum_session_length"],
-        args["lookback"],
+    log = Log(args.file)
+    sessions = log.get_sessions(
+        args.systems, args.exclude_systems, args.minimum_session_length, args.lookback
     )
     if len(sessions) == 0:
         print("No sessions found")
+        return
 
-    if args["weekly_schedule"]:
+    if args.weekly_schedule:
         schedule = Schedule(sessions)
         schedule.print_schedule()
         return
 
-    if args["recently_played"]:
-        history = History(sessions, args["list_length"])
+    if args.recently_played:
+        history = History(sessions, args.list_length)
         history.print_history()
         return
 
     stats = get_stats_from_sessions(sessions)
     top = TopList(stats)
 
-    criteria = args["criteria"]
+    criteria = args.criteria
 
-    if not args["bar_chart"] is None:
+    if not args.bar_chart is None:
         top.print_bar_chart(
-            criteria if args["bar_chart"] else None,
-            args["bar_chart"],
-            args["list_length"],
+            criteria if args.bar_chart else None, args.bar_chart, args.list_length
         )
         return
 
-    top.print_list_entries(criteria, args["list_length"])
+    top.print_list_entries(criteria, args.list_length)
 
 
 if __name__ == "__main__":

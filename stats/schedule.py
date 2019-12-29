@@ -1,7 +1,7 @@
 from typing import Dict, List
 from datetime import datetime, timedelta
 
-from session import Session
+from stats.session import Session
 
 
 class Schedule:
@@ -40,12 +40,20 @@ class Schedule:
 
         self._add_session(system, game, bucket_end, end)
 
+    def get_schedule_data(self) -> Dict[str, Dict[str, int]]:
+        return self._schedule
+
     def print_schedule(self):
         gradient = " ░░░▒▒▒▒▒▒▓▓▓▓▓▓▓▓▓████████████"
         max_value = -1
         for day in self._schedule.values():
             max_value = max(max(day.values()), max_value)
+
         increment = max_value / (len(gradient) - 1)
+        if increment == 0:
+            print("Could not find any activity")
+            return
+
         day_names = [
             "Monday",
             "Tuesday",

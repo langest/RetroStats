@@ -1,10 +1,10 @@
 import statistics
 from typing import Dict, List
 
-from session import Session
+from stats.session import Session
 
 
-class Stats:
+class GameStats:
     def __init__(
         self,
         game: str,
@@ -42,7 +42,7 @@ class Stats:
 
 def get_stats_from_sessions(
     sessions: Dict[str, Dict[str, List[Session]]]
-) -> Dict[str, List[Stats]]:
+) -> Dict[str, List[GameStats]]:
     aggregate = {}
     for system_name, system in sessions.items():
         for game_name, game in system.items():
@@ -58,7 +58,7 @@ def get_stats_from_sessions(
                 average = total_time / times_played
                 median = statistics.median(session_lengths)
 
-            stats = Stats(
+            stats = GameStats(
                 game_name, system_name, times_played, total_time, average, median
             )
             if system_name in aggregate:
