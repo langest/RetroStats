@@ -93,10 +93,7 @@ def main():
 
     log = Log(args.file)
     sessions = log.get_sessions(
-        args.systems,
-        args.exclude_systems,
-        args.minimum_session_length,
-        args.lookback
+        args.systems, args.exclude_systems, args.minimum_session_length, args.lookback
     )
     if len(sessions) == 0:
         print("No sessions found")
@@ -119,9 +116,7 @@ def main():
 
     if not args.bar_chart is None:
         top.print_bar_chart(
-            criteria if args.bar_chart else None,
-            args.bar_chart,
-            args.list_length,
+            criteria if args.bar_chart else None, args.bar_chart, args.list_length
         )
         return
 

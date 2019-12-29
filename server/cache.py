@@ -3,6 +3,7 @@ from datetime import timedelta
 
 from stats.log import Log
 
+
 class LogCache:
     def __init__(self, path, refresh_interval):
         self._path = path

@@ -11,6 +11,7 @@ from stats.history import History
 
 from server.cache import LogCache
 
+
 def parse_args():
     desc = "Calculate some play statistics for your retro gaming"
     parser = argparse.ArgumentParser(description=desc)
@@ -31,9 +32,15 @@ def parse_args():
 
     return parser.parse_args()
 
+
 args = parse_args()
 cache = LogCache(args.file, args.refresh_interval)
-app = Flask("RetroStats-Server", template_folder='server/templates', static_folder='server/static')
+app = Flask(
+    "RetroStats-Server",
+    template_folder="server/templates",
+    static_folder="server/static",
+)
+
 
 @app.route("/", methods=["GET"])
 def root():
@@ -85,6 +92,7 @@ def get_history():
 
 def main():
     app.run(host="0.0.0.0")
+
 
 if __name__ == "__main__":
     main()
