@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+		<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Title</title>
+</head>
+<body>
+		<script content="application/javascript" src="{{ url_for('static', filename='js/plotly-v1.51.3.min.js') }}"></script>
+		<script content="application/javascript" src="{{ url_for('static', filename='js/plotting.js') }}"></script>
+
+	<div id='my_form'>
+		<ul>
+			<li>
+				<input type="radio" name="chart_selection" id='chart_sel' value="bar" checked> Bar Chart
+				<input type="radio" name="chart_selection" id='chart_sel' value="sched"> Weekly Schedule
+			</li>
+			<li>
+				<label for="sys">Systems:</label>
+				<input type="text" id="sys" name="systems">
+			</li>
+			<li>
+				<label for="sysex">Exclude systems:</label>
+				<input type="text" id="sysex" name="exclude_systems" value="kodi">
+			</li>
+			<li>
+				<label for="skip">Skip shorter than:</label>
+				<input type="number" min=0 id="skip" name="skip_shorter_than" value=120>
+			</li>
+			<li>
+				<label for="lkbk">Lookback:</label>
+				<input type="number" min=0 id="lkbk" name="lookback" value=0>
+			</li>
+			<li>
+				<label for="num_entries">Number of entries:</label>
+				<input type="number" min=1 id="num_entries" name="num_entries" value=25>
+			</li>
+			<li>
+				<input type="radio" name="category" id='cat' value="total" checked> Total
+				<input type="radio" name="category" id='cat' value="times"> Times
+				<input type="radio" name="category" id='cat' value="average"> Average
+				<input type="radio" name="category" id='cat' value="median"> Median
+			</li>
+		</ul>
+		<button onclick="on_update(document.getElementById('chart'))">Update plot</button>
+	</div>
+	<div id="chart"></div>
+</body>
+</html>
