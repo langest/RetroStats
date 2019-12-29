@@ -108,5 +108,3 @@ var on_update = function(chart_parent) {
 		return;
 	}
 };
-
-on_update();
