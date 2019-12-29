@@ -105,7 +105,7 @@ class TopList:
                 "system": g.get_system(),
                 "times": g.get_times_played(),
                 "total": g.get_total_time_played(),
-                "mean": g.get_average_session_time(),
+                "average": g.get_average_session_time(),
                 "median": g.get_median_session_time(),
             }
             result.append(stats_dict)
@@ -115,7 +115,7 @@ class TopList:
         entries = self.get_list_entries_raw(criteria, length)
         for e in entries:
             e["total"] = (self._trim_microseconds(e["total"]),)
-            e["mean"] = (self._trim_microseconds(e["mean"]),)
+            e["average"] = (self._trim_microseconds(e["average"]),)
             e["median"] = (self._trim_microseconds(e["median"]),)
         return entries
 

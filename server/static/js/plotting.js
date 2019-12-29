@@ -51,7 +51,6 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 };
 
 var plot_data = function (data, parent_element) {
-	console.log(data)
 	Plotly.newPlot(parent_element, [data]);
 };
 
