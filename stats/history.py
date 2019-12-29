@@ -15,12 +15,15 @@ class History:
                     info = {
                         "system": system,
                         "game": get_title(game, system),
-                        "session": session,
+                        "date": session.start,
                     }
                     history.append(info)
-        history.sort(key=lambda x: x["session"].start, reverse=True)
+        history.sort(key=lambda x: x["date"], reverse=True)
         self._history = history[:list_length]
+
+    def get_history_data(self) -> List[Dict[str, str]]:
+        return self._history
 
     def print_history(self):
         for session in self._history:
-            print(session["session"].start, session["system"], session["game"])
+            print(session["date"], session["system"], session["game"])
