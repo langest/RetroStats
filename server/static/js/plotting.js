@@ -46,7 +46,7 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 					}
 					data.z.push(day_data);
 				}
-				return plot_data(data);
+				return plot_data(data, chart);
 			}).catch(function (error) { return console.log(error); });
 };
 
@@ -93,13 +93,14 @@ var get_radio_value = function (radio_name) {
 };
 
 var on_update = function(chart_parent) {
+	var chart = document.getElementById('chart')
 	var chart_type = get_radio_value('chart_selection');
 	if (chart_type == "bar") {
-		get_data_and_make_stats_plot();
+		get_data_and_make_stats_plot(chart);
 		return;
 	}
 	if (chart_type == "sched") {
-		get_data_and_make_schedules_plot();
+		get_data_and_make_schedules_plot(chart);
 		return;
 	}
 	if (chart_type == "history") {
