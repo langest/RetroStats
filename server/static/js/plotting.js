@@ -4,22 +4,38 @@ var get_data_and_make_stats_plot = function (chart_parent) {
 	return fetch('/stats' + args , { method: 'GET' })
 			.then(function (response) { return response.json(); })
 			.then(function (full_data) {
-				var data = {name: 'title', x: [], y: [], type: 'bar'};
+				var data = {
+					name: 'title',
+					x: [],
+					y: [],
+					text: [],
+					type: 'bar',
+					marker: {
+						color: '#343a40',
+						line: {
+							color: '#0069d9',
+							width: 2.0
+						}
+					}
+				};
 				var i;
 				var category = get_radio_value("category");
 				for (i = 0; i < full_data.length; i++) {
 					data.x.push(full_data[i].title);
 					if (category == "total") {
 						data.y.push(full_data[i].total);
+						data.text.push(int_seconds_to_timestamp(full_data[i].total));
 					}
 					if (category == "times") {
 						data.y.push(full_data[i].times);
 					}
 					if (category == "average") {
 						data.y.push(full_data[i].average);
+						data.text.push(int_seconds_to_timestamp(full_data[i].average));
 					}
 					if (category == "median") {
 						data.y.push(full_data[i].median);
+						data.text.push(int_seconds_to_timestamp(full_data[i].median));
 					}
 				}
 				return plot_data(data, chart_parent);
@@ -34,7 +50,14 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 	return fetch('/schedule' + args , { method: 'GET' })
 			.then(function (response) { return response.json(); })
 			.then(function (full_data) {
-				var data = {name: 'title', x: [], y: [], z: [], type: 'heatmap'};
+				var data = {
+					name: 'title',
+					x: [],
+					y: [],
+					z: [],
+					type: 'heatmap',
+					colorscale: [[0, '#343a40'], [1, '#0069d9']]
+				};
 				var i;
 				data.x = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
 				for (i = 6; i >= 0; i--) {
@@ -51,7 +74,32 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 };
 
 var plot_data = function (data, parent_element) {
-	Plotly.newPlot(parent_element, [data]);
+	var text = [];
+	var vals = [];
+	var i;
+	for (i=0; i<1200; i++) {
+		var days = Math.floor(i / 24);
+		var hours = i - days * 24;
+		text.push(days + "d, " + hours + "hrs");
+		vals.push(i * 3600);
+	}
+	var layout = {
+		autosize: false,
+		xaxis: {
+			color: '#0069d9',
+		},
+		yaxis: {
+			ticktext: text,
+			tickvals: vals,
+			tickmode: 'array',
+			automargin: true,
+			color: '#0069d9',
+			font: { size:30 },
+		},
+		paper_bgcolor: '#343a40',
+		plot_bgcolor: '#343a40'
+	};
+	Plotly.newPlot(parent_element, [data], layout);
 };
 
 var parse_input = function() {
@@ -89,6 +137,25 @@ var get_radio_value = function (radio_name) {
 			return radios[i].value;
 		}
 	}
+};
+
+var int_seconds_to_timestamp = function (seconds) {
+	var days = Math.floor(seconds / 86400);
+	seconds -= days * 86400;
+	var hours = Math.floor(seconds / 3600);
+	seconds -= hours * 3600;
+	var minutes = Math.floor(seconds / 60);
+	seconds -= minutes * 60;
+	seconds = Math.floor(seconds);
+	result = "";
+	if (days > 0) result += days + "d ";
+	if (hours < 10) result += "0";
+	result += hours + ":";
+	if (minutes < 10) result += "0";
+	result += minutes + ":";
+	if (seconds < 10) result += "0";
+	result += seconds;
+	return result;
 };
 
 var on_update = function(chart_parent) {
