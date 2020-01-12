@@ -20,11 +20,13 @@ var get_data_and_make_stats_plot = function (chart_parent) {
 				};
 				var i;
 				var category = get_radio_value("category");
+				var ylabels = { text: null, vals: null };
 				for (i = 0; i < full_data.length; i++) {
 					data.x.push(full_data[i].title);
 					if (category == "total") {
 						data.y.push(full_data[i].total);
 						data.text.push(int_seconds_to_timestamp(full_data[i].total));
+						ylabels = build_labels();
 					}
 					if (category == "times") {
 						data.y.push(full_data[i].times);
@@ -32,25 +34,30 @@ var get_data_and_make_stats_plot = function (chart_parent) {
 					if (category == "average") {
 						data.y.push(full_data[i].average);
 						data.text.push(int_seconds_to_timestamp(full_data[i].average));
+						ylabels = build_labels();
 					}
 					if (category == "median") {
 						data.y.push(full_data[i].median);
 						data.text.push(int_seconds_to_timestamp(full_data[i].median));
+						ylabels = build_labels();
 					}
 				}
-				var text = [];
-				var vals = [];
-				var i;
-				for (i=0; i<1200; i++) {
-					var days = Math.floor(i / 24);
-					var hours = i - days * 24;
-					if (hours < 10) hours = "0" + hours;
-					text.push(days + "d, " + hours + "hrs");
-					vals.push(i * 3600);
-				}
-				ylabels = { text: text, vals: vals };
 				return plot_data(data, ylabels, chart_parent);
 			}).catch(function (error) { return console.log(error); });
+};
+
+var build_labels = function () {
+	var text = [];
+	var vals = [];
+	var i;
+	for (i=0; i<1200; i++) {
+		var days = Math.floor(i / 24);
+		var hours = i - days * 24;
+		if (hours < 10) hours = "0" + hours;
+		text.push(days + "d, " + hours + "hrs");
+		vals.push(i * 3600);
+	}
+	return { text: text, vals: vals };
 };
 
 var get_data_and_make_schedules_plot = function (chart_parent) {
