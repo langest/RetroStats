@@ -38,7 +38,17 @@ var get_data_and_make_stats_plot = function (chart_parent) {
 						data.text.push(int_seconds_to_timestamp(full_data[i].median));
 					}
 				}
-				return plot_data(data, chart_parent);
+				var text = [];
+				var vals = [];
+				var i;
+				for (i=0; i<1200; i++) {
+					var days = Math.floor(i / 24);
+					var hours = i - days * 24;
+					text.push(days + "d, " + hours + "hrs");
+					vals.push(i * 3600);
+				}
+				ylabels = { text: text, vals: vals };
+				return plot_data(data, ylabels, chart_parent);
 			}).catch(function (error) { return console.log(error); });
 };
 
@@ -69,7 +79,7 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 					}
 					data.z.push(day_data);
 				}
-				return plot_data(data, chart);
+				return plot_data(data, { text:null, vals:null }, chart);
 			}).catch(function (error) { return console.log(error); });
 };
 
@@ -83,14 +93,15 @@ var plot_data = function (data, parent_element) {
 		text.push(days + "d, " + hours + "hrs");
 		vals.push(i * 3600);
 	}
+var plot_data = function (data, ylabels, parent_element) {
 	var layout = {
 		autosize: false,
 		xaxis: {
 			color: '#0069d9',
 		},
 		yaxis: {
-			ticktext: text,
-			tickvals: vals,
+			ticktext: ylabels.text,
+			tickvals: ylabels.vals,
 			tickmode: 'array',
 			automargin: true,
 			color: '#0069d9',
