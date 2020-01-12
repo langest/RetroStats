@@ -44,6 +44,7 @@ var get_data_and_make_stats_plot = function (chart_parent) {
 				for (i=0; i<1200; i++) {
 					var days = Math.floor(i / 24);
 					var hours = i - days * 24;
+					if (hours < 10) hours = "0" + hours;
 					text.push(days + "d, " + hours + "hrs");
 					vals.push(i * 3600);
 				}
