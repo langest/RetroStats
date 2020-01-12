@@ -88,14 +88,20 @@
 					<input class="custom-control-input" type="radio" name="category" id='chart_sel_average' value="average">
 					<label class="custom-control-label" for="chart_sel_average"> Mean </label>
 				</div>
+
 				<div class="custom-control custom-radio custom-control-inline">
 					<input class="custom-control-input" type="radio" name="category" id='chart_sel_median' value="median">
 					<label class="custom-control-label" for="chart_sel_median"> Median </label>
 				</div>
+			</div>
+
+			<div class="form-group">
 				<button type="button" class="btn btn-primary" onclick="on_update(document.getElementById('chart'))">Update plot</button>
 			</div>
 		</div>
-		<div id="chart"></div>
+		<div class="chart-container">
+			<div id="chart"></div>
+		</div>
 		<script>
 			var category = get_radio_value("chart_selection");
 			update_form_visibility(category);
