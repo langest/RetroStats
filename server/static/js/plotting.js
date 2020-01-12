@@ -102,6 +102,30 @@ var plot_data = function (data, parent_element) {
 	Plotly.newPlot(parent_element, [data], layout);
 };
 
+var register_chart_listener = function () {
+	var radios = document.getElementsByName("chart_selection");
+	for (var i = 0; i < radios.length; i++) {
+			radios[i].addEventListener('change', function() {
+					var radio_value = this.value;
+					if (radio_value == 'bar') {
+						document.getElementById('sys_group').style.display = "initial";
+						document.getElementById('sysex_group').style.display = "initial";
+						document.getElementById('skip_group').style.display = "initial";
+						document.getElementById('lkbk_group').style.display = "initial";
+						document.getElementById('num_entries_group').style.display = "initial";
+						document.getElementById('category_group').style.display = "initial";
+					} else if (radio_value == 'sched') {
+						document.getElementById('sys_group').style.display = "initial";
+						document.getElementById('sysex_group').style.display = "initial";
+						document.getElementById('skip_group').style.display = "initial";
+						document.getElementById('lkbk_group').style.display = "initial";
+						document.getElementById('num_entries_group').style.display = "none";
+						document.getElementById('category_group').style.display = "none";
+					}
+			});
+	}
+};
+
 var parse_input = function() {
 	var args = ""
 	var category = get_radio_value("category");
