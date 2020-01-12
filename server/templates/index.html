@@ -15,88 +15,95 @@
 			<a class="navbar-brand logo" href="#">
 				RetroStats
 			</a>
+			<a>
+				<img src="{{ url_for('static', filename='img/github.svg') }}" alt="Related Book 1" width="auto" height="20px"/>
+			</a>
 		</nav>
 		<div id='my_form' class='chart_form'>
-			<label for="chart_20pxdiv">Chart Type</label>
-			<div class="form-group" id="chart_sel_div">
-				<div class="custom-control custom-radio custom-control-inline">
-					<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel1" value="bar" checked>
-					<label class="custom-control-label" for="chart_sel1">Bar</label>
-				</div>
-				<div class="custom-control custom-radio custom-control-inline">
-					<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel2" value="sched">
-					<label class="custom-control-label" for="chart_sel2">Weekly Activity</label>
-				</div>
-			</div>
+			<div class="container">
 
-			<div id="systems_group">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Systems</span>
+				<label for="chart_20pxdiv">Chart Type</label>
+				<div class="form-group" id="chart_sel_div">
+					<div class="custom-control custom-control-inline form-radio">
+						<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel1" value="bar" checked>
+						<label class="custom-control-label" for="chart_sel1">Bar</label>
 					</div>
-					<input type="text" class="form-control" id="systems">
-				</div>
-			</div>
 
-			<div id="sysex_group">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Excluded Systems</label>
+					<div class="custom-control custom-control-inline form-radio">
+						<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel2" value="sched">
+						<label class="custom-control-label" for="chart_sel2">Weekly Activity</label>
 					</div>
-					<input type="text" class="form-control" id="sysex" value="kodi">
 				</div>
-			</div>
 
-			<div id="skip_group">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Skip Shorter Than</label>
+				<div id="systems_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Systems</span>
+						</div>
+						<input type="text" class="form-control" id="systems">
 					</div>
-					<input type="text" class="form-control" id="skip">
 				</div>
-			</div>
 
-			<div id="lkbk_group">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Lookback</label>
+				<div id="sysex_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Excluded Systems</label>
+						</div>
+						<input type="text" class="form-control" id="sysex" value="kodi">
 					</div>
-					<input type="text" class="form-control" id="lkbk">
 				</div>
-			</div>
 
-			<div id="num_entries_group">
-				<div class="input-group input-group-sm mb-3">
-					<div class="input-group-prepend">
-						<span class="input-group-text">Number of Entries</label>
+				<div id="skip_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Skip Shorter Than</label>
+						</div>
+						<input type="number" class="form-control" id="skip" min=0 value=120>
 					</div>
-					<input type="text" class="form-control" id="num_entries">
-				</div>
-			</div>
-
-			<div class="form-group" id="category_group">
-				<div class="custom-control custom-radio custom-control-inline">
-					<input class="custom-control-input" type="radio" name="category" id='chart_sel_total' value="total" checked>
-					<label class="custom-control-label" for="chart_sel_total"> Total </label>
 				</div>
 
-				<div class="custom-control custom-radio custom-control-inline">
-					<input class="custom-control-input" type="radio" name="category" id='chart_sel_times' value="times">
-					<label class="custom-control-label" for="chart_sel_times"> Times </label>
-				</div>
-				<div class="custom-control custom-radio custom-control-inline">
-					<input class="custom-control-input" type="radio" name="category" id='chart_sel_average' value="average">
-					<label class="custom-control-label" for="chart_sel_average"> Mean </label>
+				<div id="lkbk_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Lookback</label>
+						</div>
+						<input type="number" class="form-control" id="lkbk" min=0 value=0>
+					</div>
 				</div>
 
-				<div class="custom-control custom-radio custom-control-inline">
-					<input class="custom-control-input" type="radio" name="category" id='chart_sel_median' value="median">
-					<label class="custom-control-label" for="chart_sel_median"> Median </label>
+				<div id="num_entries_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Number of Entries</label>
+						</div>
+						<input type="number" class="form-control" id="num_entries" min=0 value=15>
+					</div>
 				</div>
-			</div>
 
-			<div class="form-group">
-				<button type="button" class="btn btn-primary" onclick="on_update(document.getElementById('chart'))">Update plot</button>
+				<div class="form-group" id="category_group">
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_total' value="total" checked>
+						<label class="custom-control-label" for="chart_sel_total"> Total </label>
+					</div>
+
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_times' value="times">
+						<label class="custom-control-label" for="chart_sel_times"> Times </label>
+					</div>
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_average' value="average">
+						<label class="custom-control-label" for="chart_sel_average"> Mean </label>
+					</div>
+
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_median' value="median">
+						<label class="custom-control-label" for="chart_sel_median"> Median </label>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" onclick="on_update(document.getElementById('chart'))">Update plot</button>
+				</div>
 			</div>
 		</div>
 		<div class="chart-container">
