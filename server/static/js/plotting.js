@@ -116,14 +116,14 @@ var plot_data = function (data, ylabels, parent_element) {
 
 var update_form_visibility = function (chart_selection) {
 	if (chart_selection == 'bar') {
-		document.getElementById('sys_group').style.display = "initial";
+		document.getElementById('systems_group').style.display = "initial";
 		document.getElementById('sysex_group').style.display = "initial";
 		document.getElementById('skip_group').style.display = "initial";
 		document.getElementById('lkbk_group').style.display = "initial";
 		document.getElementById('num_entries_group').style.display = "initial";
 		document.getElementById('category_group').style.display = "initial";
 	} else if (chart_selection == 'sched') {
-		document.getElementById('sys_group').style.display = "initial";
+		document.getElementById('systems_group').style.display = "initial";
 		document.getElementById('sysex_group').style.display = "initial";
 		document.getElementById('skip_group').style.display = "initial";
 		document.getElementById('lkbk_group').style.display = "initial";
@@ -147,7 +147,7 @@ var parse_input = function() {
 	var category = get_radio_value("category");
 	args += '?criteria=' + category;
 
-	var systems = document.getElementById("sys").value
+	var systems = document.getElementById("systems").value
 	if (systems != '')
 		args += '&systems=' + systems;
 

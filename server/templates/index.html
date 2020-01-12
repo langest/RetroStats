@@ -16,9 +16,8 @@
 				RetroStats
 			</a>
 		</nav>
-
-		<div id='my_form'>
-			<label for="chart_sel_div">Chart Type</label>
+		<div id='my_form' class='chart_form'>
+			<label for="chart_20pxdiv">Chart Type</label>
 			<div class="form-group" id="chart_sel_div">
 				<div class="custom-control custom-radio custom-control-inline">
 					<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel1" value="bar" checked>
@@ -29,31 +28,58 @@
 					<label class="custom-control-label" for="chart_sel2">Weekly Activity</label>
 				</div>
 			</div>
-			<div class="form-group">
-				<label for="sys">Systems</label>
-				<input type="text" class="form-control form-control-sm" id="sys">
+
+			<div id="systems_group">
+				<div class="input-group input-group-sm mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Systems</span>
+					</div>
+					<input type="text" class="form-control" id="systems">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="sysex">Exclude Systems</label>
-				<input type="text" class="form-control form-control-sm" id="sysex" value="kodi">
+
+			<div id="sysex_group">
+				<div class="input-group input-group-sm mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Excluded Systems</label>
+					</div>
+					<input type="text" class="form-control" id="sysex" value="kodi">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="skip">Skip Shorter Than</label>
-				<input type="number" class="form-control form-control-sm" min=0 id="skip" name="skip_shorter_than" value=120>
+
+			<div id="skip_group">
+				<div class="input-group input-group-sm mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Skip Shorter Than</label>
+					</div>
+					<input type="text" class="form-control" id="skip">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="lkbk">Lookback</label>
-				<input type="number" class="form-control form-control-sm" min=0 id="lkbk" name="lookback" value=0>
+
+			<div id="lkbk_group">
+				<div class="input-group input-group-sm mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Lookback</label>
+					</div>
+					<input type="text" class="form-control" id="lkbk">
+				</div>
 			</div>
-			<div class="form-group">
-				<label for="num_entries">Number of Entries</label>
-				<input type="number" class="form-control form-control-sm" min=1 id="num_entries" name="num_entries" value=25>
+
+			<div id="num_entries_group">
+				<div class="input-group input-group-sm mb-3">
+					<div class="input-group-prepend">
+						<span class="input-group-text">Number of Entries</label>
+					</div>
+					<input type="text" class="form-control" id="num_entries">
+				</div>
 			</div>
-			<div class="form-group">
+
+			<div class="form-group" id="category_group">
 				<div class="custom-control custom-radio custom-control-inline">
 					<input class="custom-control-input" type="radio" name="category" id='chart_sel_total' value="total" checked>
 					<label class="custom-control-label" for="chart_sel_total"> Total </label>
 				</div>
+
 				<div class="custom-control custom-radio custom-control-inline">
 					<input class="custom-control-input" type="radio" name="category" id='chart_sel_times' value="times">
 					<label class="custom-control-label" for="chart_sel_times"> Times </label>
