@@ -91,19 +91,39 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 			}).catch(function (error) { return console.log(error); });
 };
 
-var plot_data = function (data, parent_element) {
-	var text = [];
-	var vals = [];
+function create_history_table(data) {
+	var body = document.getElementById('chart');
+	var table = document.createElement('table');
+	table.style.width = '100%';
+	table.setAttribute('border', '1');
+	var tbody = document.createElement('tbody');
+	var lenght = data.length;
 	var i;
-	for (i=0; i<1200; i++) {
-		var days = Math.floor(i / 24);
-		var hours = i - days * 24;
-		text.push(days + "d, " + hours + "hrs");
-		vals.push(i * 3600);
+	for (i = 0; i < length; i++) {
+		var tr = document.createElement('tr');
+		var td = document.createElement('td');
+		td.appendChild(document.createTextNode('a'))
+		tr.appendChild(td)
+		tbody.appendChild(tr);
 	}
+	table.appendChild(tbody);
+	body.appendChild(table)
+}
+
+var get_data_and_make_history_plot = function () {
+	args = parse_input();
+
+	return fetch('/history' + args , { method: 'GET' })
+			.then(function (response) { return response.json(); })
+			.then(function (data) {
+				return create_history_table(data);
+			}).catch(function (error) { return console.log(error); });
+};
+
 var plot_data = function (data, ylabels, parent_element) {
 	var layout = {
 		autosize: false,
+		width: Math.max(document.documentElement.clientWidth - 20, window.innerWidth - 20 || 0),
 		xaxis: {
 			color: '#0069d9',
 		},
