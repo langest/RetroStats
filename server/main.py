@@ -16,6 +16,13 @@ def parse_args():
     desc = "Calculate some play statistics for your retro gaming"
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument(
+        "-p",
+        "--port",
+        type=int,
+        default=8080,
+        help="portnumber for the server, defaults to 8080",
+    )
+    parser.add_argument(
         "-r",
         "--refresh-interval",
         type=int,
@@ -91,7 +98,7 @@ def get_history():
 
 
 def main():
-    app.run(host="0.0.0.0")
+    app.run(host="0.0.0.0", port=args.port)
 
 
 if __name__ == "__main__":

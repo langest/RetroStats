@@ -58,14 +58,17 @@ optional arguments:
 ## running webserver
 ```
 $ retro-stats-server -h
-usage: retro-stats-server [-h] [-r REFRESH_INTERVAL] [-f FILE]
+usage: retro-stats-server [-h] [-p PORT] [-r REFRESH_INTERVAL] [-f FILE]
 
 Calculate some play statistics for your retro gaming
 
 optional arguments:
   -h, --help            show this help message and exit
+  -p PORT, --port PORT  portnumber for the server, defaults to 80
   -r REFRESH_INTERVAL, --refresh-interval REFRESH_INTERVAL
                         the number of minutes you want to cache the log
   -f FILE, --file FILE  path to the stats file, defaults to
                         /home/pi/RetroPie/game_stats.log
 ```
+After starting the server, open a browser and go to your Raspberry Pi's ip.
+If you run with a custom portnumber make sure to add that to the url.
