@@ -55,7 +55,7 @@ optional arguments:
                         print your game history
 ```
 
-## running webserver
+## Running Webserver
 ```
 $ retro-stats-server -h
 usage: retro-stats-server [-h] [-p PORT] [-r REFRESH_INTERVAL] [-f FILE]
