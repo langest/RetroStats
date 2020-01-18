@@ -3,23 +3,24 @@ Stats for retropie games
 # Manual install
 Append the contents of runcommand_hooks to their respective runcommand hook in retropie.
 ```
-$ cat runcommand_hook/sruncommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
-$ cat runcommand_hook/sruncommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
+$ cat runcommand_hook/runcommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
+$ cat runcommand_hook/runcommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
+```
+
+Instal using pip in repo root
+```
+$ pip install -e . --user
 ```
 
 # Running the program
-On RPi python 2 is the default python so you need to call it with `python3`
-```
-$ python3 retro-stats/game_stats.py -f ~/RetroPie/game_stats.log
-```
 
-For a full list of option use `-h` or `--help`
+## Running using cli
 ```
-$ python3 /home/pi/repos/RetroStats/retro-stats/game_stats.py -h
-usage: game_stats.py [-h] [-n LIST_LENGTH] [-f FILE] [-c CRITERIA]
-                     [-m MINIMUM_SESSION_LENGTH] [-s SYSTEMS [SYSTEMS ...]]
-                     [-e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]] [-l LOOKBACK]
-                     [-w | -b BAR_CHART | -r]
+$ retro-stats-cli -h
+usage: retro-stats-cli [-h] [-n LIST_LENGTH] [-f FILE] [-c CRITERIA]
+                       [-m MINIMUM_SESSION_LENGTH] [-s SYSTEMS [SYSTEMS ...]]
+                       [-e EXCLUDE_SYSTEMS [EXCLUDE_SYSTEMS ...]]
+                       [-l LOOKBACK] [-w | -b BAR_CHART | -r]
 
 Calculate some play statistics for your retro gaming
 
@@ -28,7 +29,7 @@ optional arguments:
   -n LIST_LENGTH, --list-length LIST_LENGTH
                         how many entries to print, defaults to 25
   -f FILE, --file FILE  path to the stats file, defaults to
-                        /home/pi/RetroPe/game_stats.log
+                        /home/pi/RetroPie/game_stats.log
   -c CRITERIA, --criteria CRITERIA
                         which criteria to order by, disabled for schedule
                         option, available options are: total (time), times
@@ -52,5 +53,22 @@ optional arguments:
                         length
   -r, --recently_played
                         print your game history
-
 ```
+
+## running webserver
+```
+$ retro-stats-server -h
+usage: retro-stats-server [-h] [-p PORT] [-r REFRESH_INTERVAL] [-f FILE]
+
+Calculate some play statistics for your retro gaming
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -p PORT, --port PORT  portnumber for the server, defaults to 80
+  -r REFRESH_INTERVAL, --refresh-interval REFRESH_INTERVAL
+                        the number of minutes you want to cache the log
+  -f FILE, --file FILE  path to the stats file, defaults to
+                        /home/pi/RetroPie/game_stats.log
+```
+After starting the server, open a browser and go to your Raspberry Pi's ip.
+If you run with a custom portnumber make sure to add that to the url.

@@ -1,0 +1,12 @@
+.logo {
+	color: white;
+	text-shadow:
+	-1px -1px 1px #0069d9,
+	1px -1px 1px #0069d9,
+	-1px 1px 1px #0069d9,
+	1px 1px 1px #0069d9;
+}
+
+.chart-container {
+	background-color: #343a40;
+}

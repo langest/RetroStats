@@ -1,52 +1,119 @@
 <!doctype html>
 <html lang="en">
-<head>
+	<head>
 		<meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>Title</title>
-</head>
-<body>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<title>Title</title>
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+	</head>
+	<body>
 		<script content="application/javascript" src="{{ url_for('static', filename='js/plotly-v1.51.3.min.js') }}"></script>
 		<script content="application/javascript" src="{{ url_for('static', filename='js/plotting.js') }}"></script>
 
-	<div id='my_form'>
-		<ul>
-			<li>
-				<input type="radio" name="chart_selection" id='chart_sel' value="bar" checked> Bar Chart
-				<input type="radio" name="chart_selection" id='chart_sel' value="sched"> Weekly Schedule
-			</li>
-			<li>
-				<label for="sys">Systems:</label>
-				<input type="text" id="sys" name="systems">
-			</li>
-			<li>
-				<label for="sysex">Exclude systems:</label>
-				<input type="text" id="sysex" name="exclude_systems" value="kodi">
-			</li>
-			<li>
-				<label for="skip">Skip shorter than:</label>
-				<input type="number" min=0 id="skip" name="skip_shorter_than" value=120>
-			</li>
-			<li>
-				<label for="lkbk">Lookback:</label>
-				<input type="number" min=0 id="lkbk" name="lookback" value=0>
-			</li>
-			<li>
-				<label for="num_entries">Number of entries:</label>
-				<input type="number" min=1 id="num_entries" name="num_entries" value=25>
-			</li>
-			<li>
-				<input type="radio" name="category" id='cat' value="total" checked> Total
-				<input type="radio" name="category" id='cat' value="times"> Times
-				<input type="radio" name="category" id='cat' value="average"> Mean
-				<input type="radio" name="category" id='cat' value="median"> Median
-			</li>
-		</ul>
-		<button onclick="on_update(document.getElementById('chart'))">Update plot</button>
-	</div>
-	<div id="chart"></div>
-	<script>
-		on_update(document.getElementById('chart'))
-	</script>
-</body>
+		<nav class="navbar sticky-top navbar-dark bg-dark">
+			<a class="navbar-brand logo" href="#">
+				RetroStats
+			</a>
+			<a href="https://github.com/langest/RetroStats">
+				<img src="{{ url_for('static', filename='img/GitHub-Mark-Light-32px.png') }}" alt="Related Book 1"/>
+			</a>
+		</nav>
+		<div id='my_form' class='chart_form'>
+			<div class="container">
+
+				<label for="chart_20pxdiv">Chart Type</label>
+				<div class="form-group" id="chart_sel_div">
+					<div class="custom-control custom-control-inline form-radio">
+						<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel1" value="bar" checked>
+						<label class="custom-control-label" for="chart_sel1">Bar</label>
+					</div>
+
+					<div class="custom-control custom-control-inline form-radio">
+						<input class="custom-control-input" type="radio" name="chart_selection" id="chart_sel2" value="sched">
+						<label class="custom-control-label" for="chart_sel2">Weekly Activity</label>
+					</div>
+				</div>
+
+				<div id="systems_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Systems</span>
+						</div>
+						<input type="text" class="form-control" id="systems">
+					</div>
+				</div>
+
+				<div id="sysex_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Excluded Systems</label>
+						</div>
+						<input type="text" class="form-control" id="sysex" value="kodi">
+					</div>
+				</div>
+
+				<div id="skip_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Skip Shorter Than</label>
+						</div>
+						<input type="number" class="form-control" id="skip" min=0 value=120>
+					</div>
+				</div>
+
+				<div id="lkbk_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Lookback</label>
+						</div>
+						<input type="number" class="form-control" id="lkbk" min=0 value=0>
+					</div>
+				</div>
+
+				<div id="num_entries_group">
+					<div class="input-group input-group-sm mb-3">
+						<div class="input-group-prepend">
+							<span class="input-group-text">Number of Entries</label>
+						</div>
+						<input type="number" class="form-control" id="num_entries" min=0 value=15>
+					</div>
+				</div>
+
+				<div class="form-group" id="category_group">
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_total' value="total" checked>
+						<label class="custom-control-label" for="chart_sel_total"> Total </label>
+					</div>
+
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_times' value="times">
+						<label class="custom-control-label" for="chart_sel_times"> Times </label>
+					</div>
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_average' value="average">
+						<label class="custom-control-label" for="chart_sel_average"> Mean </label>
+					</div>
+
+					<div class="custom-control form-radio custom-control-inline">
+						<input class="custom-control-input" type="radio" name="category" id='chart_sel_median' value="median">
+						<label class="custom-control-label" for="chart_sel_median"> Median </label>
+					</div>
+				</div>
+
+				<div class="form-group">
+					<button type="button" class="btn btn-primary" onclick="on_update(document.getElementById('chart'))">Update plot</button>
+				</div>
+			</div>
+		</div>
+		<div class="chart-container">
+			<div id="chart"></div>
+		</div>
+		<script>
+			var category = get_radio_value("chart_selection");
+update_form_visibility(category);
+register_chart_listener();
+on_update(document.getElementById('chart'));
+		</script>
+	</body>
 </html>
