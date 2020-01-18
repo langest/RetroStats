@@ -27,7 +27,7 @@ def parse_args():
         "--file",
         type=str,
         default="/home/pi/RetroPie/game_stats.log",
-        help="path to the stats file, defaults to /home/pi/RetroPe/game_stats.log",
+        help="path to the stats file, defaults to /home/pi/RetroPie/game_stats.log",
     )
 
     return parser.parse_args()

@@ -23,7 +23,7 @@ def parse_args() -> Dict[str, Any]:
         "--file",
         type=str,
         default="/home/pi/RetroPie/game_stats.log",
-        help="path to the stats file, defaults to /home/pi/RetroPe/game_stats.log",
+        help="path to the stats file, defaults to /home/pi/RetroPie/game_stats.log",
     )
     parser.add_argument(
         "-c",
