@@ -1,15 +1,21 @@
 Stats for retropie games
 
+# Dependencies
+pip for python 3
+```
+# apt install python3-pip
+```
+
 # Manual install
 Append the contents of runcommand_hooks to their respective runcommand hook in retropie.
 ```
-$ cat runcommand_hook/runcommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
-$ cat runcommand_hook/runcommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
+$ cat runcommand_hooks/runcommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
+$ cat runcommand_hooks/runcommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
 ```
 
 Instal using pip in repo root
 ```
-$ pip install -e . --user
+$ pip3 install -e . --user
 ```
 
 # Running the program
@@ -55,7 +61,7 @@ optional arguments:
                         print your game history
 ```
 
-## running webserver
+## Running Webserver
 ```
 $ retro-stats-server -h
 usage: retro-stats-server [-h] [-p PORT] [-r REFRESH_INTERVAL] [-f FILE]
