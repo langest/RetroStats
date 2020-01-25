@@ -22,6 +22,8 @@ class Log:
                 system = row["system"]
                 date = datetime.datetime.strptime(row["date"], self.DATE_FORMAT)
                 game = row["path"]
+                if game == "" and system == row["emulator"]:
+                    game = system
                 if row["type"] == "start":
                     # Overwrite previous values if we didn't find an end tag
                     start = SessionStart(date, system, game)
