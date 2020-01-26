@@ -1,4 +1,5 @@
 import argparse
+import os
 from flask import Flask
 from flask import jsonify
 from flask import render_template
@@ -44,8 +45,8 @@ args = parse_args()
 cache = LogCache(args.file, args.refresh_interval)
 app = Flask(
     "RetroStats-Server",
-    template_folder="server/templates",
-    static_folder="server/static",
+    template_folder=os.path.join(os.path.dirname(__file__), "templates"),
+    static_folder=os.path.join(os.path.dirname(__file__), "static"),
 )
 
 
