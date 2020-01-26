@@ -15,7 +15,7 @@ $ cat runcommand_hooks/runcommand-onend.sh >> /opt/retropie/configs/all/runcomma
 
 Instal using pip in repo root
 ```
-$ pip3 install -e . --user
+$ pip3 install . --user
 ```
 
 # Running the program
