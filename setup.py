@@ -10,6 +10,7 @@ setup(
     python_requires=">=3.7.0",
     packages=find_packages(),
     install_requires=["flask"],
+    package_data={"": ["**.html", "**.js", "**.css", "**.png"]},
     entry_points={
         "console_scripts": [
             "retro-stats-cli=stats.main:main",
