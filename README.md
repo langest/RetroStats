@@ -1,4 +1,4 @@
-Stats for retropie games
+Stats for RetroPie games, and any other games that write to the `game_stats.log`
 
 # Dependencies
 pip for python 3
@@ -7,20 +7,31 @@ pip for python 3
 ```
 
 # Manual install
-Append the contents of runcommand_hooks to their respective runcommand hook in retropie.
-```
-$ cat runcommand_hooks/runcommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
-$ cat runcommand_hooks/runcommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
-```
-
 Instal using pip in repo root
 ```
 $ pip3 install . --user
 ```
 
+Append the contents of runcommand_hooks to their respective runcommand hook in RetroPie.
+```
+$ cat runcommand_hooks/runcommand-onstart.sh >> /opt/retropie/configs/all/runcommand-onstart.sh
+$ cat runcommand_hooks/runcommand-onend.sh >> /opt/retropie/configs/all/runcommand-onend.sh
+```
+
+If you want the web server to automatically start
+Edit crontab using `# crontab -e`
+Add the following
+```
+@reboot retro-stats-server &
+```
+
+Reboot your Raspberry Pi
+Now the web server will start automatically and you can open a browser and go to <your-rpi-ip>:8080 to show your statistics.
+See the instructions below on how to use a different port.
+
 # Running the program
 
-## Running using cli
+## Running using Command Line Tool
 ```
 $ retro-stats-cli -h
 usage: retro-stats-cli [-h] [-n LIST_LENGTH] [-f FILE] [-c CRITERIA]
@@ -61,7 +72,7 @@ optional arguments:
                         print your game history
 ```
 
-## Running Webserver
+## Running Web Server
 ```
 $ retro-stats-server -h
 usage: retro-stats-server [-h] [-p PORT] [-r REFRESH_INTERVAL] [-f FILE]
@@ -78,3 +89,11 @@ optional arguments:
 ```
 After starting the server, open a browser and go to your Raspberry Pi's ip.
 If you run with a custom portnumber make sure to add that to the url.
+
+# Roadmap
+There is no time frame for when the features will be implemented,
+this is something I do in my spare time so the time I can invest is limited.
+Upcoming features in no particular order:
+* Automate installation
+* Cache data in webclient for faster and more responsive graph updates
+* Add historical data functionality from cli to the web gui as well
