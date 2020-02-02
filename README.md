@@ -1,5 +1,8 @@
 Stats for RetroPie games, and any other games that write to the `game_stats.log`
 
+Development discussion and preview is available on the official RetroPie forum,
+in a thread about the development of this tool, [Link](https://retropie.org.uk/forum/topic/24756/retrostats-web-application).
+
 # Dependencies
 pip for python 3
 ```
@@ -87,13 +90,14 @@ optional arguments:
   -f FILE, --file FILE  path to the stats file, defaults to
                         /home/pi/RetroPie/game_stats.log
 ```
-After starting the server, open a browser and go to your Raspberry Pi's ip.
-If you run with a custom portnumber make sure to add that to the url.
+After starting the server, open a browser and go to your Raspberry Pi's ip followed by the portnumber.
+`<pi-ip>:<port number>, default port number is 8080.
+If you run with a custom port number make sure to add that to the URL.
 
 # Roadmap
 There is no time frame for when the features will be implemented,
 this is something I do in my spare time so the time I can invest is limited.
 Upcoming features in no particular order:
 * Automate installation
-* Cache data in webclient for faster and more responsive graph updates
+* Cache data in web client for faster and more responsive graph updates
 * Add historical data functionality from cli to the web gui as well
