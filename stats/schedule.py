@@ -6,7 +6,7 @@ from stats.session import Session
 
 class Schedule:
     def __init__(self, sessions: Dict[str, Dict[str, List[Session]]]):
-        self._schedule = {x: {y: 0 for y in range(0, 24)} for x in range(0, 7)}
+        self._schedule = {x: {y: 0.0 for y in range(0, 24)} for x in range(0, 7)}
         for system_name, system in sessions.items():
             for game_name, game in system.items():
                 for session in game:
@@ -40,7 +40,7 @@ class Schedule:
 
         self._add_session(bucket_end, end)
 
-    def get_schedule_data(self) -> Dict[str, Dict[str, int]]:
+    def get_schedule_data(self) -> Dict[int, Dict[int, float]]:
         return self._schedule
 
     def print_schedule(self):

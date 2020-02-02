@@ -39,6 +39,7 @@ class TopList:
             return self._get_top_average()
         elif criteria == "median":
             return self._get_top_median()
+        return [];
 
     def print_bar_chart(self, criteria: str, bar_length: int, list_length: int = -1):
         top_list = self._get_top(criteria)

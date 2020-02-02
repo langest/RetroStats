@@ -2,7 +2,7 @@ import xml.etree.ElementTree as ET
 import os.path
 
 
-def get_title(rom_path, system) -> str:
+def get_title(rom_path: str, system: str) -> str:
     default = os.path.basename(rom_path)
 
     game_list = os.path.join("/home/pi/roms", system, "gamelist.xml")
