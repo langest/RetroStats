@@ -3,6 +3,21 @@ Stats for RetroPie games, and any other games that write to the `game_stats.log`
 Development discussion and preview is available on the official RetroPie forum,
 in a thread about the development of this tool, [Link](https://retropie.org.uk/forum/topic/24756/retrostats-web-application).
 
+# Preview
+## Desktop
+
+<details><summary>Desktop</summary>
+   <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642874924-1.png" alt="Desktop Histogram 1">
+   <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642874942-2.png" alt="Desktop Histogram 2">
+   <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642875009-3.png" alt="Desktop Schedule">
+</details>
+
+## Mobile
+<details><summary>Desktop</summary>
+   <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642874806-4.png" alt="Mobile Histogram ">
+   <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642874807-5.png" alt="Mobile Schedule">
+</details>
+
 # Dependencies
 pip for python 3
 ```
