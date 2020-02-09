@@ -120,7 +120,7 @@ class TopList:
             e["median"] = (self._trim_microseconds(e["median"]),)
         return entries
 
-    def print_list_entries(self, criteria: str, length: int = -1) -> List[GameStats]:
+    def print_list_entries(self, criteria: str, length: int = -1):
         game_list = self.get_list_entries(criteria, length)
 
         for i, g in enumerate(game_list, start=1):

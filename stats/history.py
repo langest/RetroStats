@@ -21,7 +21,7 @@ class History:
         history.sort(key=lambda x: x["date"], reverse=True)
         self._history = history[:list_length]
 
-    def get_history_data(self) -> List[Dict[str, str]]:
+    def get_history_data(self) -> List[Dict[str, Dict[str, any]]]:
         return self._history
 
     def print_history(self):
