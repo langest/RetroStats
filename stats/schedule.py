@@ -6,11 +6,11 @@ from stats.session import Session
 
 class Schedule:
     def __init__(self, sessions: Dict[str, Dict[str, List[Session]]]):
-        self._schedule = {x: {y: 0 for y in range(0, 24)} for x in range(0, 7)}
+        self._schedule = {x: {y: 0.0 for y in range(0, 24)} for x in range(0, 7)}
         for system_name, system in sessions.items():
             for game_name, game in system.items():
                 for session in game:
-                    self._add_session(system, game, session.start, session.end)
+                    self._add_session(session.start, session.end)
         local = datetime.now()
         utc = datetime.utcnow()
         diff = (
@@ -21,7 +21,7 @@ class Schedule:
             tmp[(k + diff) % 24] = v
         self._schedule = tmp
 
-    def _add_session(self, system: str, game: str, start: datetime, end: datetime):
+    def _add_session(self, start: datetime, end: datetime):
         weekday = start.weekday()
         bucket = start.hour
         if end.hour == bucket and weekday == end.weekday():
@@ -38,9 +38,9 @@ class Schedule:
         )
         self._schedule[weekday][bucket] += (bucket_end - start).total_seconds()
 
-        self._add_session(system, game, bucket_end, end)
+        self._add_session(bucket_end, end)
 
-    def get_schedule_data(self) -> Dict[str, Dict[str, int]]:
+    def get_schedule_data(self) -> Dict[int, Dict[int, float]]:
         return self._schedule
 
     def print_schedule(self):

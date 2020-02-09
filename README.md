@@ -116,3 +116,4 @@ Upcoming features in no particular order:
 * Automate installation
 * Cache data in web client for faster and more responsive graph updates
 * Add historical data functionality from cli to the web gui as well
+* Fix type hints in stats module

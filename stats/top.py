@@ -39,6 +39,7 @@ class TopList:
             return self._get_top_average()
         elif criteria == "median":
             return self._get_top_median()
+        return [];
 
     def print_bar_chart(self, criteria: str, bar_length: int, list_length: int = -1):
         top_list = self._get_top(criteria)
@@ -119,7 +120,7 @@ class TopList:
             e["median"] = (self._trim_microseconds(e["median"]),)
         return entries
 
-    def print_list_entries(self, criteria: str, length: int = -1) -> List[GameStats]:
+    def print_list_entries(self, criteria: str, length: int = -1):
         game_list = self.get_list_entries(criteria, length)
 
         for i, g in enumerate(game_list, start=1):
@@ -128,6 +129,6 @@ class TopList:
                 f"{g['title']} for {g['system']}, ",
                 f"played {g['times']} times, ",
                 f"time played: {g['total']}, ",
-                f"avg: {g['mean']}, ",
+                f"avg: {g['average']}, ",
                 f"median: {g['median']}",
             )

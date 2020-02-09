@@ -8,7 +8,7 @@ from stats.schedule import Schedule
 from stats.history import History
 
 
-def parse_args() -> Dict[str, Any]:
+def parse_args():
     desc = "Calculate some play statistics for your retro gaming"
     parser = argparse.ArgumentParser(description=desc)
     parser.add_argument(
