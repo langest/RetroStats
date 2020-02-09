@@ -129,6 +129,6 @@ class TopList:
                 f"{g['title']} for {g['system']}, ",
                 f"played {g['times']} times, ",
                 f"time played: {g['total']}, ",
-                f"avg: {g['mean']}, ",
+                f"avg: {g['average']}, ",
                 f"median: {g['median']}",
             )
