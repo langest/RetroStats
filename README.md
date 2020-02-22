@@ -13,7 +13,7 @@ in a thread about the development of this tool, [Link](https://retropie.org.uk/f
 </details>
 
 ## Mobile
-<details><summary>Desktop</summary>
+<details><summary>Mobile</summary>
    <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642874806-4.png" alt="Mobile Histogram ">
    <img src="https://retropie.org.uk/forum/assets/uploads/files/1580642874807-5.png" alt="Mobile Schedule">
 </details>
