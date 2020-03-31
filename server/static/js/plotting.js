@@ -78,7 +78,7 @@ var get_data_and_make_schedules_plot = function (chart_parent) {
 				};
 				var i;
 				data.x = [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23];
-				for (i = 6; i >= 0; i--) {
+				for (i = 7; i >= 1; i--) {
 					data.y.push(day_names[i]);
 					var j;
 					var day_data = [];
