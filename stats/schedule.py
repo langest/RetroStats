@@ -17,8 +17,10 @@ class Schedule:
             int((local - utc).days * 86400 + round((local - utc).seconds, -1)) // 3600
         )
         tmp = {}
-        for k, v in self._schedule.items():
-            tmp[(k + diff) % 24] = v
+        for day, hours in self._schedule.items():
+            for hour, val in hours.items():
+                tmp.setdefault(day, {})
+                tmp[day][(hour + diff) % 24] = val
         self._schedule = tmp
 
     def _add_session(self, start: datetime, end: datetime):

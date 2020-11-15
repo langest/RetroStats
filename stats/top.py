@@ -115,9 +115,9 @@ class TopList:
     def get_list_entries(self, criteria: str, length: int = 0) -> List[Dict[str, any]]:
         entries = self.get_list_entries_raw(criteria, length)
         for e in entries:
-            e["total"] = (self._trim_microseconds(e["total"]),)
-            e["average"] = (self._trim_microseconds(e["average"]),)
-            e["median"] = (self._trim_microseconds(e["median"]),)
+            e["total"] = datetime.timedelta(seconds=e['total'])
+            e["average"] = datetime.timedelta(seconds=e["average"])
+            e["median"] = datetime.timedelta(seconds=e["median"])
         return entries
 
     def print_list_entries(self, criteria: str, length: int = -1):
